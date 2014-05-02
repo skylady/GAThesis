@@ -4,12 +4,12 @@ public class Chromosome {
 
 	private Group group;
 	private Auditory auditory;
-	private Pair pair;
+	private Period period;
 
-	public Chromosome(Group group, Auditory auditory, Pair pair) {
+	public Chromosome(Group group, Auditory auditory, Period period) {
 		this.group = group;
 		this.auditory = auditory;
-		this.pair = pair;
+		this.period = period;
 	}
 
 	public Group getGroup() {
@@ -28,12 +28,12 @@ public class Chromosome {
 		this.auditory = auditory;
 	}
 
-	public Pair getPair() {
-		return pair;
+	public Period getPeriod() {
+		return period;
 	}
 
-	public void setPair(Pair pair) {
-		this.pair = pair;
+	public void setPeriod(Period period) {
+		this.period = period;
 	}
 
 	public String makeChromosome() {

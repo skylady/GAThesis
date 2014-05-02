@@ -32,18 +32,34 @@ public class Test {
 			System.out.println(aud.get(8).getAuditoryNumber());
 		
 
-		Pair pair1 = new Pair(0, 1, "Monday", 1);
-		Pair pair2 = new Pair(1, 2, "Monday", 1);
-		Pair pair3 = new Pair(2, 3, "Monday", 1);
-		Pair pair4 = new Pair(3, 4, "Monday", 1);
-		Pair pair5 = new Pair(4, 5, "Monday", 1);
-		Pair pair6 = new Pair(5, 6, "Monday", 1);
-		Pair pair7 = new Pair(6, 1, "Tuesday", 1);
-		Pair pair8 = new Pair(7, 2, "Tuesday", 1);
+		Period period1 = new Period(0, 1, "Monday", 1);
+		Period period2 = new Period(1, 2, "Monday", 1);
+		Period period3 = new Period(2, 3, "Monday", 1);
+		Period period4 = new Period(3, 4, "Monday", 1);
+		Period period5 = new Period(4, 5, "Monday", 1);
+		Period period6 = new Period(5, 6, "Monday", 1);
+		Period period7 = new Period(6, 1, "Tuesday", 1);
+		Period period8 = new Period(7, 2, "Tuesday", 1);
+		
+		
+		Period[] period = { period1, period2, period3, period4, period5, period6, period7, period8};
+
+		HashMap<Integer, Period> perioda = new HashMap<Integer, Period>();
+		
+			for (int i = 0; i < 8; i++) {
+				perioda.put(i, period[i]);
+			}
+		
+		
+			HashMap<Period, Integer> codePeriod = Period
+					.setOfEncodedPeriods(perioda, 0);
+			System.out.println(codePeriod.get(period4));
+			System.out.println(perioda.get(6).getDayOfTheWeek());
+		
 		
 		GroupCode groupCode1 = new GroupCode(0, 3, "lecture", "Gul", 0);
 		Group group1 = new Group(0, groupCode1, 1);
-		Chromosome gene1 = new Chromosome(group1, aud1, pair1);
+		Chromosome gene1 = new Chromosome(group1, aud1, period1);
 
 	}
 
