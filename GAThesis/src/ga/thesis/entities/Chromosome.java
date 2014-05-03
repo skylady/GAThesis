@@ -1,4 +1,4 @@
-package ga.entities;
+package ga.thesis.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ public class Chromosome {
 	private Group group;
 	private Auditory auditory;
 	private Period period;
-	private String representation;
+	//private String representation;
 
 	public Chromosome(Group group, Auditory auditory, Period period) {
 		this.group = group;

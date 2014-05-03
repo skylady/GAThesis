@@ -1,4 +1,4 @@
-package ga.entities;
+package ga.thesis.entities;
 
 import java.util.HashMap;
 

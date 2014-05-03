@@ -1,6 +1,9 @@
-package ga.entities;
+package ga.thesis.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class Test {
 	public static final int STARTPOINT = 10;
@@ -64,6 +67,10 @@ public class Test {
 		HashMap<Auditory, Integer> setOfEncodedAuditories = Auditory
 				.setOfEncodedAuditories(setOfAuditories, STARTPOINT
 						+ setOfEncodedGroups.size());
+		
+		
+		//Auditory keyByValue = getKeyByValue(setOfEncodedAuditories, 1);
+		
 		System.out.println(setOfEncodedAuditories.get(aud7));
 		System.out.println(setOfAuditories.get(8).getAuditoryNumber());
 
@@ -105,13 +112,34 @@ public class Test {
 				setOfAuditories, setOfPeriods));
 
 		System.out.println(Chromosome.represent1(1, 3, 7, setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods,
-						setOfGroups, setOfAuditories, setOfPeriods));
+				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+				setOfAuditories, setOfPeriods));
 
 		// group1.getGroupCode().getLecturer()
+		ArrayList<Integer> a = new ArrayList<Integer>();
+
+		a.add(1);
+		a.add(2);
+		a.add(3);
+		a.add(3);
+		a.add(5);
+		a.add(6);
+
+		java.util.Collections.shuffle(a);
+		System.out.println(a);
+
+		System.out.println(Individual.generateRandomAuditoriesList(15,
+				setOfAuditories, setOfEncodedAuditories));
+		System.out.println(Individual.generateRandomGroupsList(setOfGroups,
+				setOfEncodedGroups));
+		System.out.println(Individual.generateRandomPeriodsList(25,
+				setOfPeriods, setOfEncodedPeriods));
+
 	}
 
 	public int calculateAuditoryStartPoint() {
 		return 1;
 	}
+
+	
 }
