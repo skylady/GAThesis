@@ -6,6 +6,7 @@ public class Auditory {
 
 	private int id;
 	private String auditoryNumber;
+	private int auditorySize;
 
 	public Auditory(int id, String auditoryNumber) {
 		this.id = id;
@@ -37,23 +38,31 @@ public class Auditory {
 		return setOfAuditories;
 	}
 
-	public static HashMap<Auditory, Integer> setOfEncodedAuditories(HashMap<Integer, Auditory> setOfAuditories,
-			Integer startPoint) {
+	public static HashMap<Auditory, Integer> setOfEncodedAuditories(
+			HashMap<Integer, Auditory> setOfAuditories, Integer startPoint) {
 		HashMap<Auditory, Integer> setOfEncodedAuditories = new HashMap<Auditory, Integer>();
-		for (int i = 0; i < setOfAuditories.size(); i++) {	
-			setOfEncodedAuditories.put(setOfAuditories.get(i),startPoint);
+		for (int i = 0; i < setOfAuditories.size(); i++) {
+			setOfEncodedAuditories.put(setOfAuditories.get(i), startPoint);
 			startPoint++;
 		}
 		return setOfEncodedAuditories;
 	}
-	
-	public static HashMap<Integer,Auditory> setOfReverseEncodedAuditories(HashMap<Integer, Auditory> setOfAuditories,
-			Integer startPoint) {
-		HashMap<Integer,Auditory> setOfEncodedAuditories = new HashMap<Integer,Auditory>();
-		for (int i = 0; i < setOfAuditories.size(); i++) {	
-			setOfEncodedAuditories.put(startPoint,setOfAuditories.get(i));
+
+	public static HashMap<Integer, Auditory> setOfReverseEncodedAuditories(
+			HashMap<Integer, Auditory> setOfAuditories, Integer startPoint) {
+		HashMap<Integer, Auditory> setOfEncodedAuditories = new HashMap<Integer, Auditory>();
+		for (int i = 0; i < setOfAuditories.size(); i++) {
+			setOfEncodedAuditories.put(startPoint, setOfAuditories.get(i));
 			startPoint++;
 		}
 		return setOfEncodedAuditories;
+	}
+
+	public int getAuditorySize() {
+		return auditorySize;
+	}
+
+	public void setAuditorySize(int size) {
+		this.auditorySize = size;
 	}
 }

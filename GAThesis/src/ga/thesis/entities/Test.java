@@ -67,10 +67,9 @@ public class Test {
 		HashMap<Auditory, Integer> setOfEncodedAuditories = Auditory
 				.setOfEncodedAuditories(setOfAuditories, STARTPOINT
 						+ setOfEncodedGroups.size());
-		
-		
-		//Auditory keyByValue = getKeyByValue(setOfEncodedAuditories, 1);
-		
+
+		// Auditory keyByValue = getKeyByValue(setOfEncodedAuditories, 1);
+
 		System.out.println(setOfEncodedAuditories.get(aud7));
 		System.out.println(setOfAuditories.get(8).getAuditoryNumber());
 
@@ -135,11 +134,14 @@ public class Test {
 		System.out.println(Individual.generateRandomPeriodsList(25,
 				setOfPeriods, setOfEncodedPeriods));
 
+		System.out.println(Individual.generateIndividual(setOfEncodedGroups,
+				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+				setOfAuditories, setOfPeriods).getRepresentation());
+
 	}
 
 	public int calculateAuditoryStartPoint() {
 		return 1;
 	}
 
-	
 }

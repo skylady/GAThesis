@@ -4,21 +4,24 @@ import ga.thesis.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class Individual {
 
 	private List<Chromosome> chromosomes;
 	private ArrayList<ArrayList<Integer>> representation;
-	// private int length;
+	private int length;
 	private double fitness;
 
 	public Individual(List<Chromosome> chromosomes,
-			ArrayList<ArrayList<Integer>> representation, double fitness) {
+			ArrayList<ArrayList<Integer>> representation, int length,
+			double fitness) {
 		this.chromosomes = chromosomes;
 		this.representation = representation;
-		// this.length = length;
+		this.length = length;
 		this.fitness = fitness;
 	}
 
@@ -38,13 +41,13 @@ public class Individual {
 		this.representation = representation;
 	}
 
-	// public int getLength() {
-	// return length;
-	// }
-	//
-	// public void setLength(int length) {
-	// this.length = length;
-	// }
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
 
 	public double getFitness() {
 		return fitness;
@@ -124,7 +127,7 @@ public class Individual {
 							.get(i))));
 		}
 
-		return new Individual(chrList, resIndividual, 0.0);
+		return new Individual(chrList, resIndividual, resIndividual.size(), 0.0);
 	}
 
 	public static Individual generateValidIndividual(
@@ -152,6 +155,16 @@ public class Individual {
 		return resIndividual;
 
 	}
+	
+	public static <T> boolean isValidList(List<T> list) {
+		Set<T> set = new HashSet<T>(list.size());
+		for (T item: list) {
+			if (!set.add(item)) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	public static Boolean isValidIndividual(Individual ind,
 			HashMap<Group, Integer> setOfEncodedGroups,
@@ -160,8 +173,25 @@ public class Individual {
 			HashMap<Integer, Group> setOfGroups,
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
+		int i = 0;
 		// 1: Each lecturer has only one period at the same day at the same
 		// auditory
+
+		
+		
+		// 2: Each group can have only one period at the same time and day
+
+		// 3: In the each auditory only one group can have period at the same
+		// moment
+
+		// 4: Size of group < size of auditory
+		for (i = 0; i < ind.getLength(); i++) {
+			if (!(ind.getChromosomes().get(i).getGroup().getGroupCode()
+					.getGroupSize() <= ind.getChromosomes().get(i)
+					.getAuditory().getAuditorySize())) {
+				return false;
+			}
+		}
 
 		return true;
 	}
@@ -173,8 +203,24 @@ public class Individual {
 			HashMap<Integer, Group> setOfGroups,
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
-
+		// to do
 		return 0.0;
 	}
 
+	public static String encode(HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+		String represe = "";
+		for (int i = 0; i < 5; i++) {
+			String str = Chromosome.generateRandomChromosome(
+					setOfEncodedGroups, setOfEncodedAuditories,
+					setOfEncodedPeriods, setOfGroups, setOfAuditories,
+					setOfPeriods);
+			represe = represe.concat(str);
+		}
+		return represe;
+	}
 }

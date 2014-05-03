@@ -66,4 +66,35 @@ public class Period {
 		}
 		return setOfEncodedPeriods;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dayOfTheWeek == null) ? 0 : dayOfTheWeek.hashCode());
+		result = prime * result + numberOfPeriod;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Period other = (Period) obj;
+		if (dayOfTheWeek == null) {
+			if (other.dayOfTheWeek != null)
+				return false;
+		} else if (!dayOfTheWeek.equals(other.dayOfTheWeek))
+			return false;
+		if (numberOfPeriod != other.numberOfPeriod)
+			return false;
+		return true;
+	}
+	
+	
 }
