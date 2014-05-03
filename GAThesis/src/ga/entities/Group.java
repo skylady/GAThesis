@@ -39,7 +39,7 @@ public class Group {
 	}
 	
 	
-	public HashMap<Integer, Group> setOfGroups(Group group,
+	public static HashMap<Integer, Group> setOfGroups(Group group,
 			int length) {
 		HashMap<Integer, Group> setOfGroups = new HashMap<Integer, Group>();
 		for (int i = 0; i < length; i++) {
@@ -48,7 +48,7 @@ public class Group {
 		return setOfGroups;
 	}
 
-	public HashMap<Group, Integer> setOfEncodedGroups(HashMap<Integer, Group> setOfGroups,
+	public static HashMap<Group, Integer> setOfEncodedGroups(HashMap<Integer, Group> setOfGroups,
 			Integer startPoint) {
 		HashMap<Group, Integer> setOfEncodedGroups = new HashMap<Group, Integer>();
 		for (int i = 0; i < setOfGroups.size(); i++) {	

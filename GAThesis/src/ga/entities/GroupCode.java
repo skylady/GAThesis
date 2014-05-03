@@ -3,13 +3,13 @@ package ga.entities;
 public class GroupCode {
 
 	private int id;
-	private int subject;
+	private String subject;
 	private String subjectType;
 	private String lecturer;
 	private int groupSize;
 	//private int groupSize;
 
-	public GroupCode(int id, int subject, String subjectType, String lecturer,
+	public GroupCode(int id, String subject, String subjectType, String lecturer,
 			int groupSize) {
 		this.id = id;
 		this.subject = subject;
@@ -26,11 +26,11 @@ public class GroupCode {
 		this.id = id;
 	}
 
-	public int getSubject() {
+	public String getSubject() {
 		return subject;
 	}
 
-	public void setSubject(int subject) {
+	public void setSubject(String subject) {
 		this.subject = subject;
 	}
 

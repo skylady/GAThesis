@@ -1,10 +1,15 @@
 package ga.entities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
 public class Chromosome {
 
 	private Group group;
 	private Auditory auditory;
 	private Period period;
+	private String representation;
 
 	public Chromosome(Group group, Auditory auditory, Period period) {
 		this.group = group;
@@ -41,4 +46,77 @@ public class Chromosome {
 
 	}
 
+	public static String makeChromosome(Group group, Auditory auditory,
+			Period period, HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods) {
+		String res = String.valueOf(setOfEncodedGroups.get(group))
+				.concat(String.valueOf(setOfEncodedAuditories.get(auditory)))
+				.concat(String.valueOf(setOfEncodedPeriods.get(period)));
+
+		return res;
+	}
+
+	public static String generateRandomChromosome(
+			HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+		Random rand = new Random();
+		int randGroup = rand.nextInt(setOfGroups.size());
+		int randAuditory = rand.nextInt(setOfAuditories.size());
+		int randPeriod = rand.nextInt(setOfPeriods.size());
+		String res = String
+				.valueOf(setOfEncodedGroups.get(setOfGroups.get(randGroup)))
+				.concat(String.valueOf(setOfEncodedAuditories
+						.get(setOfAuditories.get(randAuditory))))
+				.concat(String.valueOf(setOfEncodedPeriods.get(setOfPeriods
+						.get(randPeriod))));
+		return res;
+	}
+
+	public static String represent(int randGroup, int randAuditory,
+			int randPeriod, HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+		String res = String
+				.valueOf(setOfEncodedGroups.get(setOfGroups.get(randGroup)))
+				.concat(String.valueOf(setOfEncodedAuditories
+						.get(setOfAuditories.get(randAuditory))))
+				.concat(String.valueOf(setOfEncodedPeriods.get(setOfPeriods
+						.get(randPeriod))));
+		return res;
+	}
+
+	public static ArrayList<Integer> represent1(int randGroup,
+			int randAuditory, int randPeriod,
+			HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+		ArrayList<Integer> resArr = new ArrayList<Integer>();
+
+		resArr.add(setOfEncodedGroups.get(setOfGroups.get(randGroup)));
+		System.out.println(setOfEncodedGroups.get(setOfGroups.get(randGroup)));
+		resArr.add(setOfEncodedAuditories.get(setOfAuditories.get(randAuditory)));
+		resArr.add(setOfEncodedPeriods.get(setOfPeriods.get(randPeriod)));
+
+		return resArr;
+	}
+
+	public static String representToString(ArrayList<Integer> arr) {
+		String res = "";
+		for (int i = 0; i < arr.size(); i++) {
+			res = res.concat(String.valueOf(arr.get(i)));
+		}
+		return res;
+
+	}
 }

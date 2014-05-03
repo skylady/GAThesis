@@ -3,7 +3,43 @@ package ga.entities;
 import java.util.HashMap;
 
 public class Test {
+	public static final int STARTPOINT = 10;
+
 	public static void main(String[] args) {
+
+		GroupCode groupCode1 = new GroupCode(0, "GA", "lecture", "Gul", 11);
+		GroupCode groupCode2 = new GroupCode(1, "GA1", "prakt", "Gul", 11);
+		GroupCode groupCode3 = new GroupCode(2, "VDM", "lecture", "Pro", 11);
+		GroupCode groupCode4 = new GroupCode(3, "VDM", "prakt", "Pro", 11);
+		GroupCode groupCode5 = new GroupCode(4, "PPP", "lecture", "Grechko", 11);
+		GroupCode groupCode6 = new GroupCode(5, "PPP", "prack", "Grecko", 11);
+		GroupCode groupCode7 = new GroupCode(6, "Qos", "lecture", "Cherkasov",
+				11);
+		GroupCode groupCode8 = new GroupCode(7, "Qos", "Prack", "Cherkasov", 11);
+
+		Group group1 = new Group(0, groupCode1, 0);
+		Group group2 = new Group(0, groupCode2, 1);
+		Group group3 = new Group(0, groupCode3, 0);
+		Group group4 = new Group(0, groupCode4, 1);
+		Group group5 = new Group(0, groupCode5, 0);
+		Group group6 = new Group(0, groupCode6, 1);
+		Group group7 = new Group(0, groupCode7, 0);
+		Group group8 = new Group(0, groupCode8, 1);
+
+		Group[] group = { group1, group2, group3, group4, group5, group6,
+				group7, group8 };
+
+		HashMap<Integer, Group> setOfGroups = new HashMap<Integer, Group>();
+
+		for (int i = 0; i < 8; i++) {
+			setOfGroups.put(i, group[i]);
+		}
+
+		HashMap<Group, Integer> setOfEncodedGroups = Group.setOfEncodedGroups(
+				setOfGroups, STARTPOINT);
+		System.out.println(setOfEncodedGroups.get(group6));
+		System.out.println(setOfGroups.get(3).getGroupCode().getSubject());
+
 		Auditory aud1 = new Auditory(1, "208");
 		Auditory aud2 = new Auditory(2, "206");
 		Auditory aud3 = new Auditory(3, "223");
@@ -19,18 +55,17 @@ public class Test {
 		Auditory[] araud = { aud1, aud2, aud3, aud4, aud5, aud6, aud7, aud8,
 				aud9, aud10, aud11, aud12 };
 
-		HashMap<Integer, Auditory> aud = new HashMap<Integer, Auditory>();
-		
-			for (int i = 0; i < 11; i++) {
-				aud.put(i, araud[i]);
-			}
-		
-		
-			HashMap<Auditory, Integer> codeaud = Auditory
-					.setOfEncodedAuditories(aud, 10);
-			System.out.println(codeaud.get(aud7));
-			System.out.println(aud.get(8).getAuditoryNumber());
-		
+		HashMap<Integer, Auditory> setOfAuditories = new HashMap<Integer, Auditory>();
+
+		for (int i = 0; i < 11; i++) {
+			setOfAuditories.put(i, araud[i]);
+		}
+
+		HashMap<Auditory, Integer> setOfEncodedAuditories = Auditory
+				.setOfEncodedAuditories(setOfAuditories, STARTPOINT
+						+ setOfEncodedGroups.size());
+		System.out.println(setOfEncodedAuditories.get(aud7));
+		System.out.println(setOfAuditories.get(8).getAuditoryNumber());
 
 		Period period1 = new Period(0, 1, "Monday", 1);
 		Period period2 = new Period(1, 2, "Monday", 1);
@@ -40,27 +75,40 @@ public class Test {
 		Period period6 = new Period(5, 6, "Monday", 1);
 		Period period7 = new Period(6, 1, "Tuesday", 1);
 		Period period8 = new Period(7, 2, "Tuesday", 1);
-		
-		
-		Period[] period = { period1, period2, period3, period4, period5, period6, period7, period8};
 
-		HashMap<Integer, Period> perioda = new HashMap<Integer, Period>();
-		
-			for (int i = 0; i < 8; i++) {
-				perioda.put(i, period[i]);
-			}
-		
-		
-			HashMap<Period, Integer> codePeriod = Period
-					.setOfEncodedPeriods(perioda, 0);
-			System.out.println(codePeriod.get(period4));
-			System.out.println(perioda.get(6).getDayOfTheWeek());
-		
-		
-		GroupCode groupCode1 = new GroupCode(0, 3, "lecture", "Gul", 0);
-		Group group1 = new Group(0, groupCode1, 1);
+		Period[] period = { period1, period2, period3, period4, period5,
+				period6, period7, period8 };
+
+		HashMap<Integer, Period> setOfPeriods = new HashMap<Integer, Period>();
+
+		for (int i = 0; i < 8; i++) {
+			setOfPeriods.put(i, period[i]);
+		}
+
+		HashMap<Period, Integer> setOfEncodedPeriods = Period
+				.setOfEncodedPeriods(setOfPeriods,
+						STARTPOINT + setOfEncodedGroups.size()
+								+ setOfEncodedAuditories.size());
+		System.out.println(setOfEncodedPeriods.get(period4));
+		System.out.println(setOfPeriods.get(6).getDayOfTheWeek());
+
 		Chromosome gene1 = new Chromosome(group1, aud1, period1);
+		System.out.println(Chromosome
+				.makeChromosome(group6, aud3, period3, setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods));
+		System.out.println(Chromosome
+				.generateRandomChromosome(setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods));
+		System.out.println(Individual.encode(setOfEncodedGroups,
+				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+				setOfAuditories, setOfPeriods));
 
+		System.out.println(Chromosome.represent1(1, 3, 7, setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods));
+
+		// group1.getGroupCode().getLecturer()
 	}
 
 	public int calculateAuditoryStartPoint() {
