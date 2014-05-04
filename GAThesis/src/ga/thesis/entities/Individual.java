@@ -155,10 +155,10 @@ public class Individual {
 		return resIndividual;
 
 	}
-	
+
 	public static <T> boolean isValidList(List<T> list) {
 		Set<T> set = new HashSet<T>(list.size());
-		for (T item: list) {
+		for (T item : list) {
 			if (!set.add(item)) {
 				return false;
 			}
@@ -166,7 +166,7 @@ public class Individual {
 		return true;
 	}
 
-	public static Boolean isValidIndividual(Individual ind,
+	public static boolean isValidIndividual(Individual ind,
 			HashMap<Group, Integer> setOfEncodedGroups,
 			HashMap<Auditory, Integer> setOfEncodedAuditories,
 			HashMap<Period, Integer> setOfEncodedPeriods,
@@ -174,15 +174,86 @@ public class Individual {
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
 		int i = 0;
-		// 1: Each lecturer has only one period at the same day at the same
-		// auditory
+		int j = 0;
+		HashMap<String, ArrayList<Period>> lecturerPeriods = new HashMap<String, ArrayList<Period>>();
+		ArrayList<Period> periodsList = new ArrayList<Period>();
+
+		HashMap<String, ArrayList<Period>> subjectPeriods = new HashMap<String, ArrayList<Period>>();
+
+		// 1: Each lecturer has only one period at the same time (periodNumber,
+		// dayOfTheWeek)
+
+		// generate periods for each lecturer
+		for (j = 0; j < ind.getLength(); j++) {
+			String lecturer = ind.getChromosomes().get(j).getGroup()
+					.getGroupCode().getLecturer();
+			for (i = 0; i < ind.getLength(); i++) {
+				if (ind.getChromosomes().get(i).getGroup().getGroupCode()
+						.getLecturer().equals(lecturer)) {
+					periodsList.add(ind.getChromosomes().get(j).getPeriod());
+				}
+			}
+			lecturerPeriods.put(lecturer, periodsList);
+		}
+		// verify lists
+		for (i = 0; i < lecturerPeriods.size(); i++) {
+			if (!isValidList(lecturerPeriods.get(i)))
+				return false;
+		}
+		periodsList.clear();
+
+		//Every group have in the same time only one period
+		//if groupNumber=0 no other groups with the same subject at the same time
+		//no duplicate group
+		
+		//generate groups by subject
+		
+		for (j = 0; j < ind.getLength(); j++) {
+			String subject = ind.getChromosomes().get(j).getGroup().getGroupCode().getSubject();
+			for (i = 0; i < ind.getLength(); i++) {
+				if (ind.getChromosomes().get(i).getGroup().getGroupCode()
+						.getSubject().equals(subject)) {
+					periodsList.add(ind.getChromosomes().get(j).getPeriod());
+				}
+			}
+			subjectPeriods.put(subject, periodsList);
+		}
+		
+		for (i = 0; i < subjectPeriods.size(); i++) {
+			
+		//	if (subjectPeriods.get(key))
+		//		return false;
+		}
+		
+		
+		periodsList.clear();
 
 		
 		
 		// 2: Each group can have only one period at the same time and day
 
+		// generate periods for each group
+//		for (j = 0; j < ind.getLength(); j++) {
+//			Group group = ind.getChromosomes().get(j).getGroup();
+//			for (i = 0; i < ind.getLength(); i++) {
+//				if (ind.getChromosomes().get(i).getGroup().getGroupCode()
+//						.getLecturer() == lecturer) {
+//					periodsList.add(ind.getChromosomes().get(j).getPeriod());
+//				}
+//			}
+//			lecturerPeriods.put(group, periodsList);
+//		}
+//		// verify lists
+//		for (i = 0; i < lecturerPeriods.size(); i++) {
+//			if (!isValidList(lecturerPeriods.get(i)))
+//				return false;
+//		}
+
 		// 3: In the each auditory only one group can have period at the same
 		// moment
+		
+		
+		
 
 		// 4: Size of group < size of auditory
 		for (i = 0; i < ind.getLength(); i++) {

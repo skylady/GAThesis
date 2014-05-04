@@ -58,4 +58,33 @@ public class Group {
 		return setOfEncodedGroups;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((groupCode == null) ? 0 : groupCode.hashCode());
+		result = prime * result + groupNumber;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Group other = (Group) obj;
+		if (groupCode == null) {
+			if (other.groupCode != null)
+				return false;
+		} else if (!groupCode.equals(other.groupCode))
+			return false;
+		if (groupNumber != other.groupNumber)
+			return false;
+		return true;
+	}
+
 }
