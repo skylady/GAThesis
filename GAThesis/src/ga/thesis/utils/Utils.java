@@ -1,6 +1,9 @@
 package ga.thesis.utils;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 public class Utils {
@@ -12,5 +15,14 @@ public class Utils {
 		}
 		return null;
 	}
-}
 
+	public static <T> boolean isValidList(List<T> list) {
+		Set<T> set = new HashSet<T>(list.size());
+		for (T item : list) {
+			if (!set.add(item)) {
+				return false;
+			}
+		}
+		return true;
+	}
+}

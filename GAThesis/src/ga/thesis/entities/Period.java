@@ -9,7 +9,7 @@ public class Period {
 	private String dayOfTheWeek;
 	//private int weekNumber;
 
-	public Period(int id, int numberOfPeriod, String dayOfTheWeek, int weekNumber) {
+	public Period(int id, int numberOfPeriod, String dayOfTheWeek) {
 		this.id = id;
 		this.numberOfPeriod = numberOfPeriod;
 		this.dayOfTheWeek = dayOfTheWeek;

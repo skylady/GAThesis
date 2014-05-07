@@ -37,10 +37,8 @@ public class Group {
 	public void setGroupNumber(int groupNumber) {
 		this.groupNumber = groupNumber;
 	}
-	
-	
-	public static HashMap<Integer, Group> setOfGroups(Group group,
-			int length) {
+
+	public static HashMap<Integer, Group> setOfGroups(Group group, int length) {
 		HashMap<Integer, Group> setOfGroups = new HashMap<Integer, Group>();
 		for (int i = 0; i < length; i++) {
 			setOfGroups.put(i, group);
@@ -48,11 +46,11 @@ public class Group {
 		return setOfGroups;
 	}
 
-	public static HashMap<Group, Integer> setOfEncodedGroups(HashMap<Integer, Group> setOfGroups,
-			Integer startPoint) {
+	public static HashMap<Group, Integer> setOfEncodedGroups(
+			HashMap<Integer, Group> setOfGroups, Integer startPoint) {
 		HashMap<Group, Integer> setOfEncodedGroups = new HashMap<Group, Integer>();
-		for (int i = 0; i < setOfGroups.size(); i++) {	
-			setOfEncodedGroups.put(setOfGroups.get(i),startPoint);
+		for (int i = 0; i < setOfGroups.size(); i++) {
+			setOfEncodedGroups.put(setOfGroups.get(i), startPoint);
 			startPoint++;
 		}
 		return setOfEncodedGroups;
@@ -62,6 +60,8 @@ public class Group {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result
+				+ ((groupCode == null) ? 0 : groupCode.hashCode());
 		result = prime * result + groupNumber;
 		return result;
 	}
@@ -75,10 +75,14 @@ public class Group {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
+		if (groupCode == null) {
+			if (other.groupCode != null)
+				return false;
+		} else if (!groupCode.equals(other.groupCode))
+			return false;
 		if (groupNumber != other.groupNumber)
 			return false;
 		return true;
 	}
-
 
 }

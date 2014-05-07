@@ -8,9 +8,11 @@ public class Auditory {
 	private String auditoryNumber;
 	private int auditorySize;
 
-	public Auditory(int id, String auditoryNumber) {
+	public Auditory(int id, String auditoryNumber, int auditorySize) {
 		this.id = id;
 		this.auditoryNumber = auditoryNumber;
+		this.auditorySize=auditorySize;
+		
 	}
 
 	public int getId() {
@@ -64,5 +66,31 @@ public class Auditory {
 
 	public void setAuditorySize(int size) {
 		this.auditorySize = size;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((auditoryNumber == null) ? 0 : auditoryNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Auditory other = (Auditory) obj;
+		if (auditoryNumber == null) {
+			if (other.auditoryNumber != null)
+				return false;
+		} else if (!auditoryNumber.equals(other.auditoryNumber))
+			return false;
+		return true;
 	}
 }

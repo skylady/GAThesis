@@ -58,4 +58,50 @@ public class GroupCode {
 		this.lecturer = lecturer;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + groupSize;
+		result = prime * result + id;
+		result = prime * result
+				+ ((lecturer == null) ? 0 : lecturer.hashCode());
+		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+		result = prime * result
+				+ ((subjectType == null) ? 0 : subjectType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GroupCode other = (GroupCode) obj;
+		if (groupSize != other.groupSize)
+			return false;
+		if (id != other.id)
+			return false;
+		if (lecturer == null) {
+			if (other.lecturer != null)
+				return false;
+		} else if (!lecturer.equals(other.lecturer))
+			return false;
+		if (subject == null) {
+			if (other.subject != null)
+				return false;
+		} else if (!subject.equals(other.subject))
+			return false;
+		if (subjectType == null) {
+			if (other.subjectType != null)
+				return false;
+		} else if (!subjectType.equals(other.subjectType))
+			return false;
+		return true;
+	}
+
+	
 }

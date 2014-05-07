@@ -1,5 +1,6 @@
 package ga.thesis.entities;
 
+import ga.thesis.restrictions.HardRestrictions;
 import ga.thesis.utils.Utils;
 
 import java.util.ArrayList;
@@ -127,7 +128,7 @@ public class Individual {
 							.get(i))));
 		}
 
-		return new Individual(chrList, resIndividual, resIndividual.size(), 0.0);
+		return new Individual(chrList, resIndividual, chrList.size(), 0.0);
 	}
 
 	public static Individual generateValidIndividual(
@@ -140,12 +141,18 @@ public class Individual {
 		Individual resIndividual = generateIndividual(setOfEncodedGroups,
 				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
 				setOfAuditories, setOfPeriods);
-		if (!isValidIndividual(resIndividual, setOfEncodedGroups,
-				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-				setOfAuditories, setOfPeriods)) {
-			resIndividual = generateIndividual(setOfEncodedGroups,
+		boolean flag = true;
+		while (flag) {
+			if (!isValidIndividual(resIndividual, setOfEncodedGroups,
 					setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-					setOfAuditories, setOfPeriods);
+					setOfAuditories, setOfPeriods)) {
+				resIndividual = generateIndividual(setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods);
+			} else {
+				flag = false;
+			}
+
 		}
 		// double fitness=0.0;
 		resIndividual
@@ -156,226 +163,6 @@ public class Individual {
 
 	}
 
-	public static <T> boolean isValidList(List<T> list) {
-		Set<T> set = new HashSet<T>(list.size());
-		for (T item : list) {
-			if (!set.add(item)) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	// 1: Each lecturer has only one period at the same time (periodNumber,
-	// dayOfTheWeek)
-	public static boolean lecturerHasOnePeriodSimultaneously(Individual ind,
-			HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
-
-		HashMap<String, ArrayList<Period>> lecturerPeriods = new HashMap<String, ArrayList<Period>>();
-		ArrayList<Period> periodsList = new ArrayList<Period>();
-		Set<String> lecturerSet = new HashSet<String>();
-		ArrayList<String> lecturerList = new ArrayList<String>();
-		Set<String> subjectsSet = new HashSet<String>();
-		ArrayList<String> subjectList = new ArrayList<String>();
-
-		// generate periods for each lecturer
-		for (int j = 0; j < ind.getLength(); j++) {
-			String lecturer = ind.getChromosomes().get(j).getGroup()
-					.getGroupCode().getLecturer();
-			for (int i = 0; i < ind.getLength(); i++) {
-				if (ind.getChromosomes().get(i).getGroup().getGroupCode()
-						.getLecturer().equals(lecturer)) {
-					periodsList.add(ind.getChromosomes().get(j).getPeriod());
-				}
-			}
-			lecturerPeriods.put(lecturer, periodsList);
-		}
-
-		// !!!! lecturer list
-
-		for (int j = 0; j < ind.getLength(); j++) {
-			String lecturer = ind.getChromosomes().get(j).getGroup()
-					.getGroupCode().getLecturer();
-			if (!lecturerSet.add(lecturer)) {
-				lecturerList.add(lecturer);
-			}
-		}
-
-		// verify lists
-		for (int i = 0; i < lecturerPeriods.size(); i++) {
-			String lecturer = lecturerList.get(i);
-			if (!isValidList(lecturerPeriods.get(lecturer)))
-				return false;
-		}
-		return true;
-	}
-
-	public static boolean groupNumberChecker(Individual ind,
-			HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
-
-		ArrayList<Group> periodGroupsList = new ArrayList<Group>();
-		ArrayList<Period> periodList = new ArrayList<Period>();
-		HashMap<Period, ArrayList<Group>> periodGroups = new HashMap<Period, ArrayList<Group>>();
-		Set<Period> periodsSet = new HashSet<Period>();
-		Set<String> subjectsSet = new HashSet<String>();
-		ArrayList<String> subjectList = new ArrayList<String>();
-
-		// period -> groups
-		for (int j = 0; j < ind.getLength(); j++) {
-			Period period = ind.getChromosomes().get(j).getPeriod();
-			for (int i = 0; i < ind.getLength(); i++) {
-				if (ind.getChromosomes().get(i).getPeriod().equals(period)) {
-					periodGroupsList
-							.add(ind.getChromosomes().get(j).getGroup());
-				}
-			}
-			periodGroups.put(period, periodGroupsList);
-		}
-
-		// periods list
-		for (int j = 0; j < ind.getLength(); j++) {
-			Period period = ind.getChromosomes().get(j).getPeriod();
-			if (!periodsSet.add(period)) {
-				periodList.add(period);
-			}
-		}
-
-		// group subject list
-		for (int j = 0; j < ind.getLength(); j++) {
-			String subject = ind.getChromosomes().get(j).getGroup()
-					.getGroupCode().getSubject();
-			if (!subjectsSet.add(subject)) {
-				subjectList.add(subject);
-			}
-		}
-
-		// verify lists
-		for (int i = 0; i < periodGroups.size(); i++) {
-			Period period = periodList.get(i);
-			if (!isValidList(periodGroups.get(period))) {
-				return false;
-			} else {
-				int sum = 0;
-				for (int j = 0; j < periodGroups.get(period).size(); j++) {
-					String subject = subjectList.get(j);
-					if (periodGroups.get(period).get(j).getGroupNumber() == 0) {
-						if (periodGroups.get(period).get(j).getGroupCode()
-								.getSubject().equals(subject)) {
-							sum = sum + 1;
-						}
-					}
-				}
-				if (!(sum == 1)) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
-	// public static boolean groupHasOnePeriodSimultaneously(Individual ind,
-	// HashMap<Group, Integer> setOfEncodedGroups,
-	// HashMap<Auditory, Integer> setOfEncodedAuditories,
-	// HashMap<Period, Integer> setOfEncodedPeriods,
-	// HashMap<Integer, Group> setOfGroups,
-	// HashMap<Integer, Auditory> setOfAuditories,
-	// HashMap<Integer, Period> setOfPeriods) {
-	//
-	// ArrayList<Period> subjectPeriodsList = new ArrayList<Period>();
-	// ArrayList<Group> subjectGroupsList = new ArrayList<Group>();
-	// Set<String> subjectsSet = new HashSet<String>();
-	// ArrayList<String> subjectList = new ArrayList<String>();
-	//
-	// HashMap<String, ArrayList<Period>> subjectPeriods = new HashMap<String,
-	// ArrayList<Period>>();
-	// HashMap<String, ArrayList<Group>> subjectGroups = new HashMap<String,
-	// ArrayList<Group>>();
-	//
-	// // map subject -> periods
-	//
-	// for (int j = 0; j < ind.getLength(); j++) {
-	// String subject = ind.getChromosomes().get(j).getGroup()
-	// .getGroupCode().getSubject();
-	// for (int i = 0; i < ind.getLength(); i++) {
-	// if (ind.getChromosomes().get(i).getGroup().getGroupCode()
-	// .getSubject().equals(subject)) {
-	// subjectPeriodsList.add(ind.getChromosomes().get(j)
-	// .getPeriod());
-	// }
-	// }
-	// subjectPeriods.put(subject, subjectPeriodsList);
-	// }
-	//
-	// // map subject -> group List
-	//
-	// for (int j = 0; j < ind.getLength(); j++) {
-	// String subject = ind.getChromosomes().get(j).getGroup()
-	// .getGroupCode().getSubject();
-	// for (int i = 0; i < ind.getLength(); i++) {
-	// if (ind.getChromosomes().get(i).getGroup().getGroupCode()
-	// .getSubject().equals(subject)) {
-	// subjectGroupsList.add(ind.getChromosomes().get(j)
-	// .getGroup());
-	// }
-	// }
-	// subjectGroups.put(subject, subjectGroupsList);
-	// }
-	//
-	// // group subject list
-	// for (int j = 0; j < ind.getLength(); j++) {
-	// String subject = ind.getChromosomes().get(j).getGroup()
-	// .getGroupCode().getSubject();
-	// if (!subjectsSet.add(subject)) {
-	// subjectList.add(subject);
-	// }
-	// }
-	//
-	// for (int i = 0; i < subjectPeriods.size(); i++) {
-	// String tmp = subjectList.get(i);
-	//
-	// for (int j = 0; j < subjectGroups.get(tmp).size(); j++) {
-	// if (subjectGroups.get(tmp).get(j).getGroupNumber() == 0) {
-	//
-	// }
-	// }
-	// }
-	//
-	// // if (subjectPeriods.get(key))
-	// // return false;
-	//
-	// return true;
-	// }
-
-	// 4: Size of group < size of auditory
-	public static boolean groupSizeLessAuditorySize(Individual ind,
-			HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
-
-		for (int i = 0; i < ind.getLength(); i++) {
-			if (!(ind.getChromosomes().get(i).getGroup().getGroupCode()
-					.getGroupSize() <= ind.getChromosomes().get(i)
-					.getAuditory().getAuditorySize())) {
-				return false;
-			}
-		}
-		return true;
-	}
-
 	public static boolean isValidIndividual(Individual ind,
 			HashMap<Group, Integer> setOfEncodedGroups,
 			HashMap<Auditory, Integer> setOfEncodedAuditories,
@@ -383,18 +170,27 @@ public class Individual {
 			HashMap<Integer, Group> setOfGroups,
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
-		// 1:
-		if (!lecturerHasOnePeriodSimultaneously(ind, setOfEncodedGroups,
+
+		if (!HardRestrictions.lecturerUnicity(ind, setOfEncodedGroups,
 				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
 				setOfAuditories, setOfPeriods)) {
 			return false;
 		}
-		// 2
-
-		// 4
-		if (!groupSizeLessAuditorySize(ind, setOfEncodedGroups,
-				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-				setOfAuditories, setOfPeriods)) {
+//		if (!HardRestrictions.groupNumberChecker(ind, setOfEncodedGroups,
+//				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+//				setOfAuditories, setOfPeriods)) {
+//			return false;
+//		}
+//
+//		if (!HardRestrictions.auditoryUnicity(ind, setOfEncodedGroups,
+//				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+//				setOfAuditories, setOfPeriods)) {
+//			return false;
+//		}
+		if (!HardRestrictions
+				.groupSizeLessAuditorySize(ind, setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods)) {
 			return false;
 		}
 
@@ -427,5 +223,32 @@ public class Individual {
 			represe = represe.concat(str);
 		}
 		return represe;
+	}
+
+	public static String decode(Individual ind,
+			HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+
+		for (int i = 0; i < ind.getLength(); i++) {
+			System.out.println("---" + i + "---");
+			System.out.print(ind.getChromosomes().get(i).getGroup()
+					.getGroupCode().getSubject()
+					+ " "
+					+ ind.getChromosomes().get(i).getGroup().getGroupNumber()
+					+ "___");
+			System.out.print(ind.getChromosomes().get(i).getAuditory()
+					.getAuditoryNumber()
+					+ "___");
+			System.out.println(ind.getChromosomes().get(i).getPeriod()
+					.getDayOfTheWeek()
+					+ " "
+					+ ind.getChromosomes().get(i).getPeriod()
+							.getNumberOfPeriod() + "___");
+		}
+		return "done";
 	}
 }
