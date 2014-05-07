@@ -30,11 +30,11 @@ public class Group {
 		this.groupCode = groupCode;
 	}
 
-	public int getgroupNumber() {
+	public int getGroupNumber() {
 		return groupNumber;
 	}
 
-	public void setgroupNumber(int groupNumber) {
+	public void setGroupNumber(int groupNumber) {
 		this.groupNumber = groupNumber;
 	}
 	
@@ -62,8 +62,6 @@ public class Group {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((groupCode == null) ? 0 : groupCode.hashCode());
 		result = prime * result + groupNumber;
 		return result;
 	}
@@ -77,14 +75,10 @@ public class Group {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
-		if (groupCode == null) {
-			if (other.groupCode != null)
-				return false;
-		} else if (!groupCode.equals(other.groupCode))
-			return false;
 		if (groupNumber != other.groupNumber)
 			return false;
 		return true;
 	}
+
 
 }

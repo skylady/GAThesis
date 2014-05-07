@@ -7,7 +7,7 @@ public class Period {
 	private int id;
 	private int numberOfPeriod;
 	private String dayOfTheWeek;
-	private int weekNumber;
+	//private int weekNumber;
 
 	public Period(int id, int numberOfPeriod, String dayOfTheWeek, int weekNumber) {
 		this.id = id;
@@ -40,13 +40,13 @@ public class Period {
 		this.dayOfTheWeek = dayOfTheWeek;
 	}
 
-	public int getWeekNumber() {
-		return weekNumber;
-	}
-
-	public void setWeekNumber(int weekNumber) {
-		this.weekNumber = weekNumber;
-	}
+//	public int getWeekNumber() {
+//		return weekNumber;
+//	}
+//
+//	public void setWeekNumber(int weekNumber) {
+//		this.weekNumber = weekNumber;
+//	}
 
 	public static HashMap<Integer, Period> setOfPeriods(Period Period,
 			int length) {
