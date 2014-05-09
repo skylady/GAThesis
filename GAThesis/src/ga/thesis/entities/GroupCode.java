@@ -103,5 +103,11 @@ public class GroupCode {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "GroupCode [subject=" + subject + ", subjectType=" + subjectType
+				+ ", lecturer=" + lecturer + ", groupSize=" + groupSize + "]";
+	}
+
 	
 }

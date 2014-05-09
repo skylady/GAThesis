@@ -119,4 +119,10 @@ public class Chromosome {
 		return res;
 
 	}
+
+	@Override
+	public String toString() {
+		return "Chromosome [group=" + group + ", auditory=" + auditory
+				+ ", period=" + period + "]";
+	}
 }

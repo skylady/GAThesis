@@ -171,16 +171,12 @@ public class Individual {
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
 
-		if (!HardRestrictions.lecturerUnicity(ind, setOfEncodedGroups,
-				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-				setOfAuditories, setOfPeriods)) {
+		if (!HardRestrictions.lecturerPeriodUnicity(ind)) {
 			return false;
 		}
-//		if (!HardRestrictions.groupNumberChecker(ind, setOfEncodedGroups,
-//				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-//				setOfAuditories, setOfPeriods)) {
-//			return false;
-//		}
+		if (!HardRestrictions.groupNumberChecker(ind)) {
+			return false;
+		}
 //
 //		if (!HardRestrictions.auditoryUnicity(ind, setOfEncodedGroups,
 //				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
@@ -250,5 +246,12 @@ public class Individual {
 							.getNumberOfPeriod() + "___");
 		}
 		return "done";
+	}
+
+	@Override
+	public String toString() {
+		return "Individual [chromosomes=" + chromosomes + ", representation="
+				+ representation + ", length=" + length + ", fitness="
+				+ fitness + "]";
 	}
 }

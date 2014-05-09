@@ -7,6 +7,7 @@ public class Group {
 	private int id;
 	private GroupCode groupCode;
 	private int groupNumber;
+	private String course;
 
 	public Group(int id, GroupCode groupCode, int groupNumber) {
 		this.id = id;
@@ -83,6 +84,12 @@ public class Group {
 		if (groupNumber != other.groupNumber)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Group [groupCode=" + groupCode + ", groupNumber=" + groupNumber
+				+ "]";
 	}
 
 }

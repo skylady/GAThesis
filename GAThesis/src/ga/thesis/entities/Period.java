@@ -95,6 +95,12 @@ public class Period {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Period [numberOfPeriod=" + numberOfPeriod + ", dayOfTheWeek="
+				+ dayOfTheWeek + "]";
+	}
 	
 	
 }

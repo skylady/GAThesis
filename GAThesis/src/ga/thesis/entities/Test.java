@@ -1,5 +1,7 @@
 package ga.thesis.entities;
 
+import ga.thesis.restrictions.HardRestrictions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +55,8 @@ public class Test {
 
 		HashMap<Group, Integer> setOfEncodedGroups = Group.setOfEncodedGroups(
 				setOfGroups, STARTPOINT);
-		System.out.println("set size: "+setOfGroups.size());
-		System.out.println("encoded size: "+setOfEncodedGroups.size());
+		System.out.println("set size: " + setOfGroups.size());
+		System.out.println("encoded size: " + setOfEncodedGroups.size());
 		System.out.println(setOfGroups.get(3).getGroupCode().getSubject());
 
 		Auditory aud1 = new Auditory(1, "208", 12);
@@ -181,19 +183,43 @@ public class Test {
 		System.out.println(Individual.generateRandomPeriodsList(25,
 				setOfPeriods, setOfEncodedPeriods));
 		System.out.println("individual:");
-		
-		System.out.println(Individual
-				.generateValidIndividual(setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods,
-						setOfGroups, setOfAuditories, setOfPeriods)
-				.getRepresentation());
-		System.out.println(Individual.decode(Individual.generateValidIndividual(setOfEncodedGroups,
-				setOfEncodedAuditories, setOfEncodedPeriods,
-				setOfGroups, setOfAuditories, setOfPeriods), setOfEncodedGroups, setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups, setOfAuditories, setOfPeriods)
-				
-				);
 
-		
+//		System.out.println(Individual
+//				.generateValidIndividual(setOfEncodedGroups,
+//						setOfEncodedAuditories, setOfEncodedPeriods,
+//						setOfGroups, setOfAuditories, setOfPeriods)
+//				.getRepresentation());
+//		System.out
+//				.println(Individual.decode(Individual.generateValidIndividual(
+//						setOfEncodedGroups, setOfEncodedAuditories,
+//						setOfEncodedPeriods, setOfGroups, setOfAuditories,
+//						setOfPeriods), setOfEncodedGroups,
+//						setOfEncodedAuditories, setOfEncodedPeriods,
+//						setOfGroups, setOfAuditories, setOfPeriods));
+		ArrayList<Chromosome> list = new ArrayList<Chromosome>();
+
+		Chromosome chr1 = new Chromosome(group1, aud1, period2);
+		Chromosome chr2 = new Chromosome(group2, aud2, period1);
+		Chromosome chr3 = new Chromosome(group5, aud3, period3);
+	//	Chromosome chr4 = new Chromosome(group6, aud3, period1);
+		list.add(chr1);
+		list.add(chr2);
+		list.add(chr3);
+	//	list.add(chr4);
+		ArrayList<ArrayList<Integer>> arList = new ArrayList<ArrayList<Integer>>();
+		Individual ind = new Individual(list, arList, 3, 0.0);
+		if (HardRestrictions.lecturerPeriodUnicity(ind) == true) {
+			System.out.println("true");
+		} else {
+			System.out.println("false");
+		}
+
+		if (HardRestrictions.groupNumberChecker(ind) == true) {
+			System.out.println("true");
+		} else {
+			System.out.println("false");
+		}
+
 	}
 
 	public int calculateAuditoryStartPoint() {

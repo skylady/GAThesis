@@ -93,4 +93,10 @@ public class Auditory {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Auditory [auditoryNumber=" + auditoryNumber + ", auditorySize="
+				+ auditorySize + "]";
+	}
 }
