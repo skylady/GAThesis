@@ -22,17 +22,19 @@ public class HardRestrictions {
 
 		// generate periods for each lecturer
 		for (int j = 0; j < ind.getLength(); j++) {
-			ArrayList<Period> periodsList = new ArrayList<Period>();
+			Period period = ind.getChromosomes().get(j).getPeriod();
 			String lecturer = ind.getChromosomes().get(j).getGroup()
 					.getGroupCode().getLecturer();
-			System.out.println(lecturer);
-			for (int i = 0; i < ind.getLength(); i++) {
-				if (ind.getChromosomes().get(i).getGroup().getGroupCode()
-						.getLecturer().toString().equals(lecturer)) {
-					periodsList.add(ind.getChromosomes().get(i).getPeriod());
+			if (ind.getChromosomes().get(j).getGroup().getGroupCode()
+					.getLecturer().toString().equals(lecturer)) {
+				if (lecturerPeriods.containsKey(lecturer)) {
+					lecturerPeriods.get(lecturer).add(period);
+				} else {
+					ArrayList<Period> periodsList = new ArrayList<Period>();
+					periodsList.add(period);
+					lecturerPeriods.put(lecturer, periodsList);
 				}
 			}
-			lecturerPeriods.put(lecturer, periodsList);
 		}
 
 		// lecturer list
@@ -43,7 +45,6 @@ public class HardRestrictions {
 				lecturerList.add(lecturer);
 			}
 		}
-
 		// verify periods lists
 		for (int i = 0; i < lecturerPeriods.size(); i++) {
 			String lecturer = lecturerList.get(i);
@@ -61,6 +62,8 @@ public class HardRestrictions {
 		HashMap<Period, ArrayList<Group>> periodGroups = new HashMap<Period, ArrayList<Group>>();
 		Set<String> subjectsSet = new HashSet<String>();
 		ArrayList<String> subjectList = new ArrayList<String>();
+		Set<String> courseSet = new HashSet<String>();
+		ArrayList<String> courseList = new ArrayList<String>();
 
 		// period -> groups
 		for (int j = 0; j < ind.getLength(); j++) {
@@ -73,20 +76,7 @@ public class HardRestrictions {
 				periodGroupsList.add(group);
 				periodGroups.put(period, periodGroupsList);
 			}
-
-			// ArrayList<Group> periodGroupsList = new ArrayList<Group>();
-			// Period period = ind.getChromosomes().get(j).getPeriod();
-			// for (int i = 0; i < ind.getLength(); i++) {
-			// System.out.println(ind.getChromosomes().get(i).getPeriod());
-			// if (ind.getChromosomes().get(i).getPeriod().equals(period)) {
-			//
-			// periodGroupsList.add(ind.getChromosomes().get(i).getGroup());
-			// }
-			// }
-			// periodGroups.put(period, periodGroupsList);
 		}
-
-		System.out.println(periodGroups);
 
 		// periods list
 		for (int j = 0; j < ind.getLength(); j++) {
@@ -105,61 +95,13 @@ public class HardRestrictions {
 			}
 		}
 
-		System.out.println(subjectList);
-		System.out.println("Periods groups:" + periodGroups);
-		System.out.println("Periods list" + allPeriodsList);
-		return foo(periodGroups, allPeriodsList, subjectList);
-		// // verify lists for subjects
-		// for (int i = 0; i < periodGroups.size(); i++) {
-		// Period period = allPeriodsList.get(i);
-		// if (!Utils.isValidList(periodGroups.get(period))) {
-		// return false;
-		// } else {
-		// // different subjects
-		// int sum1 = 0;
-		// for (int j = 0; j < periodGroups.get(period).size(); j++) {
-		// sum1 = sum1 + 1;
-		//
-		// for (int k = 0; k < periodGroups.get(period).size(); k++) {
-		//
-		// if (periodGroups.get(period).get(k).getGroupNumber() == 0
-		// && ((sum1 != 1))) {
-		// return false;
-		// }
-		// }
-		// }
-		// // same subjects
-		// for (int k = 0; k < subjectList.size(); k++) {
-		// int sum = 0;
-		// String subject = subjectList.get(k);
-		// System.out.println(subject);
-		// System.out.println("k=" + k);
-		// for (int j = 0; j < periodGroups.get(period).size(); j++) {
-		// if (periodGroups.get(period).get(j).getGroupCode()
-		// .getSubject().equals(subject)) {
-		// sum = sum + 1;
-		// }
-		// System.out.println(sum);
-		// }
-		// for (int j = 0; j < periodGroups.get(period).size(); j++) {
-		//
-		// if (periodGroups.get(period).get(j).getGroupCode()
-		// .getSubject().equals(subject)) {
-		// if (periodGroups.get(period).get(j)
-		// .getGroupNumber() == 0
-		// && ((sum != 1))) {
-		// return false;
-		// }
-		// }
-		// }
-		// }
-		// }
-		// }
-		// return true;
-	}
-
-	public static boolean foo(HashMap<Period, ArrayList<Group>> periodGroups,
-			ArrayList<Period> allPeriodsList, ArrayList<String> subjectList) {
+		// group course list
+		for (int j = 0; j < ind.getLength(); j++) {
+			String course = ind.getChromosomes().get(j).getGroup().getCourse();
+			if (courseSet.add(course)) {
+				courseList.add(course);
+			}
+		}
 
 		// verify lists for subjects
 		for (int i = 0; i < periodGroups.size(); i++) {
@@ -169,30 +111,42 @@ public class HardRestrictions {
 				return false;
 			} else {
 				// different subjects
-				// TODO: implement for IUST1 and IUST2
-				for (int j = 0; j < groups.size(); j++) {
-					if (groups.get(j).getGroupNumber() == 0
-							&& (groups.size() != 1)) {
-						return false;
-					}
-				}
-				// same subjects
-				for (int k = 0; k < subjectList.size(); k++) {
-					int sum = 0;
-					boolean hasLecture = false;
-					String subject = subjectList.get(k);
+				for (int l = 0; l < courseList.size(); l++) {
+					String course = courseList.get(l);
+					int sum1 = 0;
+					boolean hasLecture1 = false;
 					for (int j = 0; j < groups.size(); j++) {
-						if (groups.get(j).getGroupCode().getSubject()
-								.equals(subject)) {
-							sum = sum + 1;
+						// course
+						if (groups.get(j).getCourse().equals(course)) {
+							sum1 = sum1 + 1;
 
 							if (groups.get(j).getGroupNumber() == 0) {
-								hasLecture = true;
+								hasLecture1 = true;
 							}
 						}
 					}
-					if (hasLecture && sum != 1) {
+					if (hasLecture1 && sum1 != 1) {
 						return false;
+					}
+					// same subjects
+					for (int k = 0; k < subjectList.size(); k++) {
+						int sum = 0;
+						boolean hasLecture = false;
+						String subject = subjectList.get(k);
+						for (int j = 0; j < groups.size(); j++) {
+							if (groups.get(j).getCourse().equals(course)
+									&& groups.get(j).getGroupCode()
+											.getSubject().equals(subject)) {
+								sum = sum + 1;
+
+								if (groups.get(j).getGroupNumber() == 0) {
+									hasLecture = true;
+								}
+							}
+						}
+						if (hasLecture && sum != 1) {
+							return false;
+						}
 					}
 				}
 			}
@@ -201,34 +155,32 @@ public class HardRestrictions {
 	}
 
 	// 3: validator of auditory
-	public static boolean auditoryUnicity(Individual ind,
-			HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
+	// in each auditory only one period simultaneously
+	public static boolean auditoryUnicity(Individual ind) {
 
 		HashMap<String, ArrayList<Period>> auditoryPeriods = new HashMap<String, ArrayList<Period>>();
-		ArrayList<Period> periodsList = new ArrayList<Period>();
 		ArrayList<Auditory> auditoryList = new ArrayList<Auditory>();
 		Set<Auditory> auditoriesSet = new HashSet<Auditory>();
 
 		// generate periods for each auditory
 		for (int j = 0; j < ind.getLength(); j++) {
+			Period period = ind.getChromosomes().get(j).getPeriod();
 			String auditory = ind.getChromosomes().get(j).getAuditory()
 					.getAuditoryNumber();
-			for (int i = 0; i < ind.getLength(); i++) {
-				if (ind.getChromosomes().get(i).getAuditory()
-						.getAuditoryNumber().equals(auditory)) {
-					periodsList.add(ind.getChromosomes().get(i).getPeriod());
+			if (ind.getChromosomes().get(j).getAuditory().getAuditoryNumber()
+					.equals(auditory)) {
+				if (auditoryPeriods.containsKey(auditory)) {
+					auditoryPeriods.get(auditory).add(period);
+				} else {
+					ArrayList<Period> periodsList = new ArrayList<Period>();
+					periodsList.add(period);
+					auditoryPeriods.put(auditory, periodsList);
 				}
+
 			}
-			auditoryPeriods.put(auditory, periodsList);
 		}
 
 		// set of auditory
-
 		for (int j = 0; j < ind.getLength(); j++) {
 			Auditory auditory = ind.getChromosomes().get(j).getAuditory();
 			if (auditoriesSet.add(auditory)) {
@@ -238,33 +190,34 @@ public class HardRestrictions {
 
 		// verify auditory lists
 		for (int i = 0; i < auditoryPeriods.size(); i++) {
-			// System.out.println(auditoryList.get(i));
 			String auditory = auditoryList.get(i).getAuditoryNumber();
 			if (!Utils.isValidList(auditoryPeriods.get(auditory)))
 				return false;
 		}
-
 		return true;
 	}
 
 	// 4: Size of group < size of auditory
-	public static boolean groupSizeLessAuditorySize(Individual ind,
-			HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
+	public static boolean groupSizeLessAuditorySize(Individual ind) {
 
 		for (int i = 0; i < ind.getLength(); i++) {
-			// System.out.println("length from length checker:"
-			// +ind.getLength());
-			if (!(ind.getChromosomes().get(i).getGroup().getGroupCode()
-					.getGroupSize() <= ind.getChromosomes().get(i)
+//			System.out.println("i="
+//					+ i
+//					+ "GR size:"
+//					+ ind.getChromosomes().get(i).getGroup().getGroupCode()
+//							.getGroupSize());
+//			System.out.println("Aud size: "
+//					+ ind.getChromosomes().get(i).getAuditory()
+//							.getAuditorySize());
+			if ((ind.getChromosomes().get(i).getGroup().getGroupCode()
+					.getGroupSize() > ind.getChromosomes().get(i)
 					.getAuditory().getAuditorySize())) {
+			//	System.out.println("________________");
 				return false;
+				
 			}
 		}
+		
 		return true;
 	}
 }

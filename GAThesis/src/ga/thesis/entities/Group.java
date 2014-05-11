@@ -9,10 +9,11 @@ public class Group {
 	private int groupNumber;
 	private String course;
 
-	public Group(int id, GroupCode groupCode, int groupNumber) {
+	public Group(int id, GroupCode groupCode, int groupNumber, String course) {
 		this.id = id;
 		this.groupCode = groupCode;
 		this.groupNumber = groupNumber;
+		this.course = course;
 	}
 
 	public int getId() {
@@ -57,10 +58,26 @@ public class Group {
 		return setOfEncodedGroups;
 	}
 
+
+	public String getCourse() {
+		return course;
+	}
+
+	public void setCourse(String course) {
+		this.course = course;
+	}
+
+	@Override
+	public String toString() {
+		return "Group [groupCode=" + groupCode + ", groupNumber=" + groupNumber
+				+ ", course=" + course + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((course == null) ? 0 : course.hashCode());
 		result = prime * result
 				+ ((groupCode == null) ? 0 : groupCode.hashCode());
 		result = prime * result + groupNumber;
@@ -76,6 +93,11 @@ public class Group {
 		if (getClass() != obj.getClass())
 			return false;
 		Group other = (Group) obj;
+		if (course == null) {
+			if (other.course != null)
+				return false;
+		} else if (!course.equals(other.course))
+			return false;
 		if (groupCode == null) {
 			if (other.groupCode != null)
 				return false;
@@ -84,12 +106,6 @@ public class Group {
 		if (groupNumber != other.groupNumber)
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Group [groupCode=" + groupCode + ", groupNumber=" + groupNumber
-				+ "]";
 	}
 
 }

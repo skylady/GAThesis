@@ -1,11 +1,10 @@
 package ga.thesis.entities;
 
+import ga.thesis.crossover.PMX;
 import ga.thesis.restrictions.HardRestrictions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class Test {
 	public static final int STARTPOINT = 10;
@@ -28,28 +27,99 @@ public class Test {
 		GroupCode groupCode13 = new GroupCode(12, "GWT", "lect", "Dorosh", 11);
 		GroupCode groupCode14 = new GroupCode(13, "GWT", "prakt", "Dorosh", 11);
 
-		Group group1 = new Group(1, groupCode1, 0);
-		Group group2 = new Group(2, groupCode2, 1);
-		Group group3 = new Group(3, groupCode3, 0);
-		Group group4 = new Group(4, groupCode4, 1);
-		Group group5 = new Group(5, groupCode5, 0);
-		Group group6 = new Group(6, groupCode6, 1);
-		Group group7 = new Group(7, groupCode7, 0);
-		Group group8 = new Group(8, groupCode8, 1);
-		Group group9 = new Group(9, groupCode9, 0);
-		Group group10 = new Group(10, groupCode10, 1);
-		Group group11 = new Group(11, groupCode11, 0);
-		Group group12 = new Group(12, groupCode12, 1);
-		Group group13 = new Group(13, groupCode13, 0);
-		Group group14 = new Group(14, groupCode14, 1);
+		// ---1 PI
+		GroupCode groupCode15 = new GroupCode(0, "PH", "lect", "Opanasyuk", 60);
+		GroupCode groupCode16 = new GroupCode(1, "PH", "prakt", "Opanasyuk", 10);
+		GroupCode groupCode17 = new GroupCode(2, "PH", "prakt", "Opanasyuk", 10);
+		GroupCode groupCode18 = new GroupCode(3, "PH", "prakt", "Opanasyuk", 10);
+
+		GroupCode groupCode19 = new GroupCode(0, "MA", "lect", "Zahar", 60);
+		GroupCode groupCode20 = new GroupCode(1, "MA", "prakt", "Zahar", 20);
+		GroupCode groupCode21 = new GroupCode(2, "MA", "prakt", "Mytnyk", 20);
+		GroupCode groupCode22 = new GroupCode(3, "MA", "prakt", "Pul", 20);
+
+		GroupCode groupCode23 = new GroupCode(0, "LA", "lect", "Rus", 60);
+		GroupCode groupCode24 = new GroupCode(1, "LA", "prakt", "Rus", 20);
+		GroupCode groupCode25 = new GroupCode(2, "LA", "prakt", "Kruk", 20);
+		GroupCode groupCode26 = new GroupCode(3, "LA", "prakt", "Kruk", 20);
+
+		// 4 ---
+
+		GroupCode groupCode27 = new GroupCode(0, "SP", "lect", "OPZ", 42);
+		GroupCode groupCode28 = new GroupCode(1, "SP", "prakt", "OPZ", 14);
+		GroupCode groupCode29 = new GroupCode(2, "SP", "prakt", "OPZ", 14);
+		GroupCode groupCode30 = new GroupCode(3, "SP", "prakt", "OPZ", 14);
+
+		GroupCode groupCode31 = new GroupCode(0, "UPP", "lect", "Procenko", 42);
+		GroupCode groupCode32 = new GroupCode(1, "UPP", "prakt", "Procenko", 14);
+		GroupCode groupCode33 = new GroupCode(2, "UPP", "prakt", "Sydor", 14);
+		GroupCode groupCode34 = new GroupCode(3, "UPP", "prakt", "Sydor", 14);
+
+		GroupCode groupCode35 = new GroupCode(0, "TPZ", "lect", "Afo", 42);
+		GroupCode groupCode36 = new GroupCode(1, "TPZ", "prakt", "Afo", 14);
+		GroupCode groupCode37 = new GroupCode(2, "TPZ", "prakt", "Boroz", 14);
+		GroupCode groupCode38 = new GroupCode(3, "TPZ", "prakt", "Afo", 14);
+
+		GroupCode groupCode39 = new GroupCode(0, "TM", "lect", "Afo", 42);
+		GroupCode groupCode40 = new GroupCode(1, "TM", "prakt", "Afo", 14);
+		GroupCode groupCode41 = new GroupCode(1, "TM", "prakt", "Afo", 14);
+
+		Group group1 = new Group(1, groupCode1, 0, "IUST-1");
+		Group group2 = new Group(2, groupCode2, 1, "IUST-1");
+		Group group3 = new Group(3, groupCode3, 0, "IUST-1");
+		Group group4 = new Group(4, groupCode4, 1, "IUST-1");
+		Group group5 = new Group(5, groupCode5, 0, "IUST-2");
+		Group group6 = new Group(6, groupCode6, 1, "IUST-2");
+		Group group7 = new Group(7, groupCode7, 0, "IUST-1");
+		Group group8 = new Group(8, groupCode8, 1, "IUST-1");
+		Group group9 = new Group(9, groupCode9, 0, "IUST-1");
+		Group group10 = new Group(10, groupCode10, 1, "IUST-1");
+		Group group11 = new Group(11, groupCode11, 0, "IUST-1");
+		Group group12 = new Group(12, groupCode12, 1, "IUST-1");
+		Group group13 = new Group(13, groupCode13, 0, "IUST-1");
+		Group group14 = new Group(14, groupCode14, 1, "IUST-1");
+
+		Group group15 = new Group(10, groupCode15, 0, "PI-1");
+		Group group16 = new Group(11, groupCode16, 1, "PI-1");
+		Group group17 = new Group(12, groupCode17, 2, "PI-1");
+		Group group18 = new Group(13, groupCode18, 3, "PI-1");
+
+		Group group19 = new Group(10, groupCode19, 0, "PI-1");
+		Group group20 = new Group(11, groupCode20, 1, "PI-1");
+		Group group21 = new Group(12, groupCode21, 2, "PI-1");
+		Group group22 = new Group(13, groupCode22, 3, "PI-1");
+
+		Group group23 = new Group(10, groupCode23, 0, "PI-1");
+		Group group24 = new Group(11, groupCode24, 1, "PI-1");
+		Group group25 = new Group(12, groupCode25, 2, "PI-1");
+		Group group26 = new Group(13, groupCode26, 3, "PI-1");
+
+		// --4
+		Group group27 = new Group(10, groupCode27, 0, "PI-4");
+		Group group28 = new Group(11, groupCode28, 1, "PI-4");
+		Group group29 = new Group(12, groupCode29, 2, "PI-4");
+		Group group30 = new Group(13, groupCode30, 3, "PI-4");
+
+		Group group31 = new Group(10, groupCode31, 0, "PI-4");
+		Group group32 = new Group(11, groupCode32, 1, "PI-4");
+		Group group33 = new Group(12, groupCode33, 2, "PI-4");
+		Group group34 = new Group(13, groupCode34, 3, "PI-4");
+
+		Group group35 = new Group(10, groupCode35, 0, "PI-4");
+		Group group36 = new Group(11, groupCode36, 1, "PI-4");
+		Group group37 = new Group(12, groupCode37, 2, "PI-4");
+		Group group38 = new Group(13, groupCode38, 3, "PI-4");
 
 		Group[] group = { group1, group2, group3, group4, group5, group6,
 				group7, group8, group9, group10, group11, group12, group13,
-				group14 };
+				group14, group15, group16, group17, group18, group19, group20,
+				group21, group22, group23, group24, group25, group26, group27,
+				group28, group29, group30, group31, group32, group33, group34,
+				group35, group36, group37, group38 };
 
 		HashMap<Integer, Group> setOfGroups = new HashMap<Integer, Group>();
 
-		for (int i = 0; i < 14; i++) {
+		for (int i = 0; i < 38; i++) {
 			setOfGroups.put(i, group[i]);
 		}
 
@@ -59,22 +129,22 @@ public class Test {
 		System.out.println("encoded size: " + setOfEncodedGroups.size());
 		System.out.println(setOfGroups.get(3).getGroupCode().getSubject());
 
-		Auditory aud1 = new Auditory(1, "208", 12);
-		Auditory aud2 = new Auditory(2, "206", 12);
-		Auditory aud3 = new Auditory(3, "223", 100);
-		Auditory aud4 = new Auditory(4, "309", 12);
-		Auditory aud5 = new Auditory(5, "306", 12);
-		Auditory aud6 = new Auditory(6, "307", 12);
-		Auditory aud7 = new Auditory(7, "331", 14);
-		Auditory aud8 = new Auditory(8, "310", 30);
-		Auditory aud9 = new Auditory(9, "313", 100);
-		Auditory aud10 = new Auditory(10, "225", 80);
-		Auditory aud11 = new Auditory(11, "3-310", 60);
-		Auditory aud12 = new Auditory(12, "3-220a", 30);
-		Auditory aud13 = new Auditory(13, "2-204", 12);
-		Auditory aud14 = new Auditory(14, "2-214", 12);
-		Auditory aud15 = new Auditory(15, "1-110", 14);
-		Auditory aud16 = new Auditory(16, "1-112", 14);
+		Auditory aud1 = new Auditory(3, "223", 100);
+		Auditory aud2 = new Auditory(9, "313", 100);
+		Auditory aud3 = new Auditory(10, "225", 80);
+		Auditory aud4 = new Auditory(11, "3-310", 80);
+		Auditory aud5 = new Auditory(8, "310", 30);
+		Auditory aud6 = new Auditory(12, "3-220a", 30);
+		Auditory aud7 = new Auditory(16, "1-112", 30);
+		Auditory aud8 = new Auditory(1, "208", 14);
+		Auditory aud9 = new Auditory(2, "206", 14);
+		Auditory aud10 = new Auditory(4, "309", 14);
+		Auditory aud11 = new Auditory(5, "306", 14);
+		Auditory aud12 = new Auditory(6, "307", 14);
+		Auditory aud13 = new Auditory(7, "331", 14);
+		Auditory aud14 = new Auditory(13, "2-204", 14);
+		Auditory aud15 = new Auditory(14, "2-214", 14);
+		Auditory aud16 = new Auditory(15, "1-110", 14);
 
 		Auditory[] araud = { aud1, aud2, aud3, aud4, aud5, aud6, aud7, aud8,
 				aud9, aud10, aud11, aud12, aud13, aud14, aud15, aud16 };
@@ -152,9 +222,6 @@ public class Test {
 				.generateRandomChromosome(setOfEncodedGroups,
 						setOfEncodedAuditories, setOfEncodedPeriods,
 						setOfGroups, setOfAuditories, setOfPeriods));
-		System.out.println(Individual.encode(setOfEncodedGroups,
-				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-				setOfAuditories, setOfPeriods));
 
 		System.out.println(Chromosome.represent1(1, 3, 7, setOfEncodedGroups,
 				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
@@ -177,48 +244,44 @@ public class Test {
 		System.out.println(Individual.generateRandomGroupsList(setOfGroups,
 				setOfEncodedGroups));
 		System.out.println("auditories:");
-		System.out.println(Individual.generateRandomAuditoriesList(15,
-				setOfAuditories, setOfEncodedAuditories));
+		// System.out.println(Individual.generateRandomAuditoriesList(15,
+		// setOfAuditories, setOfEncodedAuditories));
 		System.out.println("periods:");
 		System.out.println(Individual.generateRandomPeriodsList(25,
 				setOfPeriods, setOfEncodedPeriods));
 		System.out.println("individual:");
 
-//		System.out.println(Individual
-//				.generateValidIndividual(setOfEncodedGroups,
-//						setOfEncodedAuditories, setOfEncodedPeriods,
-//						setOfGroups, setOfAuditories, setOfPeriods)
-//				.getRepresentation());
-//		System.out
-//				.println(Individual.decode(Individual.generateValidIndividual(
-//						setOfEncodedGroups, setOfEncodedAuditories,
-//						setOfEncodedPeriods, setOfGroups, setOfAuditories,
-//						setOfPeriods), setOfEncodedGroups,
-//						setOfEncodedAuditories, setOfEncodedPeriods,
-//						setOfGroups, setOfAuditories, setOfPeriods));
-		ArrayList<Chromosome> list = new ArrayList<Chromosome>();
-
-		Chromosome chr1 = new Chromosome(group1, aud1, period2);
-		Chromosome chr2 = new Chromosome(group2, aud2, period1);
-		Chromosome chr3 = new Chromosome(group5, aud3, period3);
-	//	Chromosome chr4 = new Chromosome(group6, aud3, period1);
-		list.add(chr1);
-		list.add(chr2);
-		list.add(chr3);
-	//	list.add(chr4);
-		ArrayList<ArrayList<Integer>> arList = new ArrayList<ArrayList<Integer>>();
-		Individual ind = new Individual(list, arList, 3, 0.0);
-		if (HardRestrictions.lecturerPeriodUnicity(ind) == true) {
-			System.out.println("true");
-		} else {
-			System.out.println("false");
+		for (int i = 0; i < 20; i++) {
+			System.out.println(Individual.generateValidIndividual(
+					setOfEncodedGroups, setOfEncodedAuditories,
+					setOfEncodedPeriods, setOfGroups, setOfAuditories,
+					setOfPeriods).getRepresentation());
 		}
 
-		if (HardRestrictions.groupNumberChecker(ind) == true) {
-			System.out.println("true");
-		} else {
-			System.out.println("false");
-		}
+		// System.out
+		// .println(Individual.decode(Individual.generateValidIndividual(
+		// setOfEncodedGroups, setOfEncodedAuditories,
+		// setOfEncodedPeriods, setOfGroups, setOfAuditories,
+		// setOfPeriods), setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods,
+		// setOfGroups, setOfAuditories, setOfPeriods));
+		//
+		// Individual in1 =
+		// Individual.generateValidIndividual(setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+		// setOfAuditories, setOfPeriods);
+		// Individual in2 =
+		// Individual.generateValidIndividual(setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+		// setOfAuditories, setOfPeriods);
+		// System.out.println("Ind1: " + in1.getRepresentation());
+		// System.out.println("Ind2: " + in2.getRepresentation());
+		// ArrayList<Individual> res = PMX
+		// .doPMX(in1, in2, 1.0, setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods,
+		// setOfGroups, setOfAuditories, setOfPeriods);
+		// System.out.println("After Ind1: " + res.get(0).getRepresentation());
+		// System.out.println("After Ind2: " + res.get(1).getRepresentation());
 
 	}
 

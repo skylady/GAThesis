@@ -5,10 +5,8 @@ import ga.thesis.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class Individual {
 
@@ -71,7 +69,9 @@ public class Individual {
 
 	public static ArrayList<Integer> generateRandomAuditoriesList(
 			int groupSize, HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Auditory, Integer> setOfEncodedAuditories) {
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			ArrayList<Integer> groups, HashMap<Integer, Group> setOfGroups,
+			HashMap<Group, Integer> setOfEncodedGroups) {
 		Random r = new Random();
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		ArrayList<Integer> resArr = new ArrayList<Integer>();
@@ -79,11 +79,24 @@ public class Individual {
 			arr.add(setOfEncodedAuditories.get(setOfAuditories.get(i)));
 		}
 
+		int rand;
 		for (int i = 0; i < groupSize; i++) {
-			// or maybe use shuffle !
-			resArr.add(arr.get(r.nextInt(arr.size())));
+			if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
+					.getGroupCode().getGroupSize() > 30) {
+				rand = (arr.get(r.nextInt(3)));
+			} else if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
+					.getGroupCode().getGroupSize() > 14) {
+				rand = (arr.get(r.nextInt(6)));
+//
+//			} else if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
+//					.getGroupCode().getGroupSize() > 30) {
+//				rand = (arr.get(r.nextInt(3)));
+			} else {
+				rand = arr.get(r.nextInt((arr.size() - 6)) + 6);
+			}
+			resArr.add(rand);
 		}
-		java.util.Collections.shuffle(resArr);
+		// java.util.Collections.shuffle(resArr);
 		return resArr;
 	}
 
@@ -112,13 +125,14 @@ public class Individual {
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
 		ArrayList<ArrayList<Integer>> resIndividual = new ArrayList<ArrayList<Integer>>();
+		List<Chromosome> chrList = new ArrayList<Chromosome>();
 		resIndividual.add(generateRandomGroupsList(setOfGroups,
 				setOfEncodedGroups));
 		resIndividual.add(generateRandomAuditoriesList(setOfGroups.size(),
-				setOfAuditories, setOfEncodedAuditories));
+				setOfAuditories, setOfEncodedAuditories, resIndividual.get(0),
+				setOfGroups, setOfEncodedGroups));
 		resIndividual.add(generateRandomPeriodsList(setOfGroups.size(),
 				setOfPeriods, setOfEncodedPeriods));
-		List<Chromosome> chrList = new ArrayList<Chromosome>();
 
 		for (int i = 0; i < setOfGroups.size(); i++) {
 			chrList.add(new Chromosome(Utils.getKeyByValue(setOfEncodedGroups,
@@ -177,16 +191,11 @@ public class Individual {
 		if (!HardRestrictions.groupNumberChecker(ind)) {
 			return false;
 		}
-//
-//		if (!HardRestrictions.auditoryUnicity(ind, setOfEncodedGroups,
-//				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-//				setOfAuditories, setOfPeriods)) {
-//			return false;
-//		}
-		if (!HardRestrictions
-				.groupSizeLessAuditorySize(ind, setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods,
-						setOfGroups, setOfAuditories, setOfPeriods)) {
+
+		if (!HardRestrictions.auditoryUnicity(ind)) {
+			return false;
+		}
+		if (!HardRestrictions.groupSizeLessAuditorySize(ind)) {
 			return false;
 		}
 
@@ -202,23 +211,6 @@ public class Individual {
 			HashMap<Integer, Period> setOfPeriods) {
 		// to do
 		return 0.0;
-	}
-
-	public static String encode(HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
-		String represe = "";
-		for (int i = 0; i < 5; i++) {
-			String str = Chromosome.generateRandomChromosome(
-					setOfEncodedGroups, setOfEncodedAuditories,
-					setOfEncodedPeriods, setOfGroups, setOfAuditories,
-					setOfPeriods);
-			represe = represe.concat(str);
-		}
-		return represe;
 	}
 
 	public static String decode(Individual ind,
@@ -246,6 +238,34 @@ public class Individual {
 							.getNumberOfPeriod() + "___");
 		}
 		return "done";
+	}
+
+	public static Individual buildIndividualByRepresentation(
+			ArrayList<ArrayList<Integer>> representation,
+			HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+		List<Chromosome> chrList = new ArrayList<Chromosome>();
+		double fitness = 0.0;
+
+		for (int i = 0; i < setOfGroups.size(); i++) {
+			chrList.add(new Chromosome(Utils.getKeyByValue(setOfEncodedGroups,
+					representation.get(0).get(i)), Utils.getKeyByValue(
+					setOfEncodedAuditories, representation.get(1).get(i)),
+					Utils.getKeyByValue(setOfEncodedPeriods, representation
+							.get(2).get(i))));
+		}
+		Individual resIndividual = new Individual(chrList, representation,
+				representation.size(), fitness);
+		resIndividual
+				.setFitness(calculateFitness(resIndividual, setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods));
+		return resIndividual;
+
 	}
 
 	@Override
