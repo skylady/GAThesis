@@ -274,4 +274,46 @@ public class Individual {
 				+ representation + ", length=" + length + ", fitness="
 				+ fitness + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((chromosomes == null) ? 0 : chromosomes.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(fitness);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + length;
+		result = prime * result
+				+ ((representation == null) ? 0 : representation.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Individual other = (Individual) obj;
+		if (chromosomes == null) {
+			if (other.chromosomes != null)
+				return false;
+		} else if (!chromosomes.equals(other.chromosomes))
+			return false;
+		if (Double.doubleToLongBits(fitness) != Double
+				.doubleToLongBits(other.fitness))
+			return false;
+		if (length != other.length)
+			return false;
+		if (representation == null) {
+			if (other.representation != null)
+				return false;
+		} else if (!representation.equals(other.representation))
+			return false;
+		return true;
+	}
 }
