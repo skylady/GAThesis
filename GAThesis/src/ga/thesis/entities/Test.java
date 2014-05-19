@@ -282,7 +282,14 @@ public class Test {
 		// setOfGroups, setOfAuditories, setOfPeriods);
 		// System.out.println("After Ind1: " + res.get(0).getRepresentation());
 		// System.out.println("After Ind2: " + res.get(1).getRepresentation());
+		for (short i = 32766; i < 032767; i++) {
+			System.out.println("i" + i);
+		}
+		short i = 032767;
 
+		System.out.println(i);
+
+		
 	}
 
 	public int calculateAuditoryStartPoint() {
