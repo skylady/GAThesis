@@ -87,10 +87,11 @@ public class Individual {
 			} else if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
 					.getGroupCode().getGroupSize() > 14) {
 				rand = (arr.get(r.nextInt(6)));
-//
-//			} else if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
-//					.getGroupCode().getGroupSize() > 30) {
-//				rand = (arr.get(r.nextInt(3)));
+				//
+				// } else if (Utils.getKeyByValue(setOfEncodedGroups,
+				// groups.get(i))
+				// .getGroupCode().getGroupSize() > 30) {
+				// rand = (arr.get(r.nextInt(3)));
 			} else {
 				rand = arr.get(r.nextInt((arr.size() - 6)) + 6);
 			}
@@ -169,10 +170,7 @@ public class Individual {
 
 		}
 		// double fitness=0.0;
-		resIndividual
-				.setFitness(calculateFitness(resIndividual, setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods,
-						setOfGroups, setOfAuditories, setOfPeriods));
+		resIndividual.setFitness(calculateFitness(resIndividual));
 		return resIndividual;
 
 	}
@@ -202,13 +200,7 @@ public class Individual {
 		return true;
 	}
 
-	public static double calculateFitness(Individual ind,
-			HashMap<Group, Integer> setOfEncodedGroups,
-			HashMap<Auditory, Integer> setOfEncodedAuditories,
-			HashMap<Period, Integer> setOfEncodedPeriods,
-			HashMap<Integer, Group> setOfGroups,
-			HashMap<Integer, Auditory> setOfAuditories,
-			HashMap<Integer, Period> setOfPeriods) {
+	public static double calculateFitness(Individual ind) {
 		// to do
 		return 0.0;
 	}
@@ -260,10 +252,7 @@ public class Individual {
 		}
 		Individual resIndividual = new Individual(chrList, representation,
 				representation.size(), fitness);
-		resIndividual
-				.setFitness(calculateFitness(resIndividual, setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods,
-						setOfGroups, setOfAuditories, setOfPeriods));
+		resIndividual.setFitness(calculateFitness(resIndividual));
 		return resIndividual;
 
 	}

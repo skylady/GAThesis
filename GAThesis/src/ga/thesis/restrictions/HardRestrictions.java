@@ -24,9 +24,9 @@ public class HardRestrictions {
 		for (int j = 0; j < ind.getLength(); j++) {
 			Period period = ind.getChromosomes().get(j).getPeriod();
 			String lecturer = ind.getChromosomes().get(j).getGroup()
-					.getGroupCode().getLecturer();
+					.getGroupCode().getLecturer().getLecturerSurname();
 			if (ind.getChromosomes().get(j).getGroup().getGroupCode()
-					.getLecturer().toString().equals(lecturer)) {
+					.getLecturer().getLecturerSurname().toString().equals(lecturer)) {
 				if (lecturerPeriods.containsKey(lecturer)) {
 					lecturerPeriods.get(lecturer).add(period);
 				} else {
@@ -40,7 +40,7 @@ public class HardRestrictions {
 		// lecturer list
 		for (int j = 0; j < ind.getLength(); j++) {
 			String lecturer = ind.getChromosomes().get(j).getGroup()
-					.getGroupCode().getLecturer();
+					.getGroupCode().getLecturer().getLecturerSurname();
 			if (lecturerSet.add(lecturer)) {
 				lecturerList.add(lecturer);
 			}

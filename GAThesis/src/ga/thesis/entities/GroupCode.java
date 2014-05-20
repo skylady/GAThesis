@@ -5,11 +5,11 @@ public class GroupCode {
 	private int id;
 	private String subject;
 	private String subjectType;
-	private String lecturer;
+	private Lecturer lecturer;
 	private int groupSize;
 	//private int groupSize;
 
-	public GroupCode(int id, String subject, String subjectType, String lecturer,
+	public GroupCode(int id, String subject, String subjectType, Lecturer lecturer,
 			int groupSize) {
 		this.id = id;
 		this.subject = subject;
@@ -50,11 +50,11 @@ public class GroupCode {
 		this.groupSize = groupSize;
 	}
 
-	public String getLecturer() {
+	public Lecturer getLecturer() {
 		return lecturer;
 	}
 
-	public void setLecturer(String lecturer) {
+	public void setLecturer(Lecturer lecturer) {
 		this.lecturer = lecturer;
 	}
 

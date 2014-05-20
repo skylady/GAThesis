@@ -2,67 +2,150 @@ package ga.thesis.entities;
 
 import ga.thesis.crossover.PMX;
 import ga.thesis.restrictions.HardRestrictions;
+import ga.thesis.restrictions.SoftRestrictions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Test {
 	public static final int STARTPOINT = 10;
 
 	public static void main(String[] args) {
+		Period period1 = new Period(1, 1, "Monday");
+		Period period2 = new Period(2, 2, "Monday");
+		Period period3 = new Period(3, 3, "Monday");
+		Period period4 = new Period(4, 4, "Monday");
+		Period period5 = new Period(5, 5, "Monday");
+		Period period6 = new Period(6, 6, "Monday");
+		Period period7 = new Period(7, 1, "Tuesday");
+		Period period8 = new Period(8, 2, "Tuesday");
+		Period period9 = new Period(9, 3, "Tuesday");
+		Period period10 = new Period(10, 4, "Tuesday");
+		Period period11 = new Period(11, 5, "Tuesday");
+		Period period12 = new Period(12, 6, "Tuesday");
+		Period period13 = new Period(13, 1, "Wednesday");
+		Period period14 = new Period(14, 2, "Wednesday");
+		Period period15 = new Period(15, 3, "Wednesday");
+		Period period16 = new Period(16, 4, "Wednesday");
+		Period period17 = new Period(17, 5, "Wednesday");
+		Period period18 = new Period(18, 6, "Wednesday");
+		Period period19 = new Period(19, 1, "Thursday");
+		Period period20 = new Period(20, 2, "Thursday");
+		Period period21 = new Period(21, 3, "Thursday");
+		Period period22 = new Period(22, 4, "Thursday");
+		Period period23 = new Period(23, 5, "Thursday");
+		Period period24 = new Period(24, 6, "Thursday");
+		Period period25 = new Period(25, 1, "Friday");
+		Period period26 = new Period(26, 2, "Friday");
+		Period period27 = new Period(27, 3, "Friday");
+		Period period28 = new Period(28, 4, "Friday");
+		Period period29 = new Period(29, 5, "Friday");
+		Period period30 = new Period(30, 6, "Friday");
 
-		GroupCode groupCode1 = new GroupCode(0, "GA", "lect", "Gulayeva", 11);
-		GroupCode groupCode2 = new GroupCode(1, "GA", "prakt", "Gulayeva", 11);
-		GroupCode groupCode3 = new GroupCode(2, "VDM", "lect", "Procenko", 11);
-		GroupCode groupCode4 = new GroupCode(3, "VDM", "prakt", "Procenko", 11);
-		GroupCode groupCode5 = new GroupCode(4, "PPP", "lect", "Grechko", 11);
-		GroupCode groupCode6 = new GroupCode(5, "PPP", "prakt", "Grecko", 11);
-		GroupCode groupCode7 = new GroupCode(6, "Qos", "lect", "Cherkasov", 11);
-		GroupCode groupCode8 = new GroupCode(7, "Qos", "prakt", "Cherkasov", 11);
-		GroupCode groupCode9 = new GroupCode(8, "NDS", "lect", "Gor", 11);
-		GroupCode groupCode10 = new GroupCode(9, "NDS", "prakt", "Gor", 11);
-		GroupCode groupCode11 = new GroupCode(10, "Oxorona", "lect", "Fran", 11);
-		GroupCode groupCode12 = new GroupCode(11, "Oxorona", "prakt", "Fran",
-				11);
-		GroupCode groupCode13 = new GroupCode(12, "GWT", "lect", "Dorosh", 11);
-		GroupCode groupCode14 = new GroupCode(13, "GWT", "prakt", "Dorosh", 11);
+		Period[] period = { period1, period2, period3, period4, period5,
+				period6, period7, period8, period9, period10, period11,
+				period12, period13, period14, period15, period16, period17,
+				period18, period19, period20, period21, period22, period23,
+				period24, period25, period26, period27, period28, period29,
+				period30 };
+
+		HashMap<Integer, Period> setOfPeriods = new HashMap<Integer, Period>();
+
+		for (int i = 0; i < 30; i++) {
+			setOfPeriods.put(i, period[i]);
+		}
+
+		Lecturer lect1 = new Lecturer(1, "Gulaeva", new ArrayList<Period>(
+				Arrays.asList(period5, period6, period11, period12)));
+		Lecturer lect2 = new Lecturer(1, "Procenko", new ArrayList<Period>(
+				Arrays.asList(period7, period27, period28, period29, period30)));
+		Lecturer lect3 = new Lecturer(1, "Grechko", new ArrayList<Period>());
+		Lecturer lect4 = new Lecturer(1, "Cherkasov",
+				new ArrayList<Period>(Arrays.asList(period17, period14,
+						period15, period16, period18)));
+		Lecturer lect5 = new Lecturer(1, "Gor", new ArrayList<Period>(
+				Arrays.asList(period1, period7, period13, period19, period25)));
+		Lecturer lect6 = new Lecturer(1, "Fran", new ArrayList<Period>(
+				Arrays.asList(period7, period8, period9, period27, period28,
+						period29, period30)));
+		Lecturer lect7 = new Lecturer(1, "Dorosh", new ArrayList<Period>());
+		Lecturer lect8 = new Lecturer(1, "Opanasyuk", new ArrayList<Period>(
+				Arrays.asList(period12, period13, period22, period23, period25,
+						period24)));
+		Lecturer lect9 = new Lecturer(1, "Zahar", new ArrayList<Period>(
+				Arrays.asList(period7, period8, period9, period27, period28,
+						period29, period30)));
+		Lecturer lect10 = new Lecturer(1, "Mytnyk", new ArrayList<Period>());
+		Lecturer lect11 = new Lecturer(1, "Pul", new ArrayList<Period>(
+				Arrays.asList(period12, period13, period22, period23, period25,
+						period24)));
+		Lecturer lect12 = new Lecturer(1, "Rus", new ArrayList<Period>(
+				Arrays.asList(period7, period8, period9, period27, period28,
+						period29, period30)));
+		Lecturer lect13 = new Lecturer(1, "Kryk", new ArrayList<Period>());
+		Lecturer lect14 = new Lecturer(1, "OPZ", new ArrayList<Period>(
+				Arrays.asList(period12, period13, period22, period23, period25,
+						period24)));
+		Lecturer lect15 = new Lecturer(1, "Sydor", new ArrayList<Period>(
+				Arrays.asList(period7, period8, period9, period27, period28,
+						period29, period30)));
+		Lecturer lect16 = new Lecturer(1, "Afo", new ArrayList<Period>());
+		Lecturer lect17 = new Lecturer(1, "Boroz", new ArrayList<Period>(
+				Arrays.asList(period12, period13, period22, period23, period25,
+						period24)));
+
+		GroupCode groupCode1 = new GroupCode(0, "GA", "lect", lect1, 11);
+		GroupCode groupCode2 = new GroupCode(1, "GA", "prakt", lect1, 11);
+		GroupCode groupCode3 = new GroupCode(2, "VDM", "lect", lect2, 11);
+		GroupCode groupCode4 = new GroupCode(3, "VDM", "prakt", lect2, 11);
+		GroupCode groupCode5 = new GroupCode(4, "PPP", "lect", lect3, 11);
+		GroupCode groupCode6 = new GroupCode(5, "PPP", "prakt", lect3, 11);
+		GroupCode groupCode7 = new GroupCode(6, "Qos", "lect", lect4, 11);
+		GroupCode groupCode8 = new GroupCode(7, "Qos", "prakt", lect4, 11);
+		GroupCode groupCode9 = new GroupCode(8, "NDS", "lect", lect5, 11);
+		GroupCode groupCode10 = new GroupCode(9, "NDS", "prakt", lect5, 11);
+		GroupCode groupCode11 = new GroupCode(10, "Oxorona", "lect", lect6, 11);
+		GroupCode groupCode12 = new GroupCode(11, "Oxorona", "prakt", lect6, 11);
+		GroupCode groupCode13 = new GroupCode(12, "GWT", "lect", lect7, 11);
+		GroupCode groupCode14 = new GroupCode(13, "GWT", "prakt", lect7, 11);
 
 		// ---1 PI
-		GroupCode groupCode15 = new GroupCode(0, "PH", "lect", "Opanasyuk", 60);
-		GroupCode groupCode16 = new GroupCode(1, "PH", "prakt", "Opanasyuk", 10);
-		GroupCode groupCode17 = new GroupCode(2, "PH", "prakt", "Opanasyuk", 10);
-		GroupCode groupCode18 = new GroupCode(3, "PH", "prakt", "Opanasyuk", 10);
+		GroupCode groupCode15 = new GroupCode(0, "PH", "lect", lect8, 60);
+		GroupCode groupCode16 = new GroupCode(1, "PH", "prakt", lect8, 10);
+		GroupCode groupCode17 = new GroupCode(2, "PH", "prakt", lect8, 10);
+		GroupCode groupCode18 = new GroupCode(3, "PH", "prakt", lect8, 10);
 
-		GroupCode groupCode19 = new GroupCode(0, "MA", "lect", "Zahar", 60);
-		GroupCode groupCode20 = new GroupCode(1, "MA", "prakt", "Zahar", 20);
-		GroupCode groupCode21 = new GroupCode(2, "MA", "prakt", "Mytnyk", 20);
-		GroupCode groupCode22 = new GroupCode(3, "MA", "prakt", "Pul", 20);
+		GroupCode groupCode19 = new GroupCode(0, "MA", "lect", lect9, 60);
+		GroupCode groupCode20 = new GroupCode(1, "MA", "prakt", lect9, 20);
+		GroupCode groupCode21 = new GroupCode(2, "MA", "prakt", lect10, 20);
+		GroupCode groupCode22 = new GroupCode(3, "MA", "prakt", lect11, 20);
 
-		GroupCode groupCode23 = new GroupCode(0, "LA", "lect", "Rus", 60);
-		GroupCode groupCode24 = new GroupCode(1, "LA", "prakt", "Rus", 20);
-		GroupCode groupCode25 = new GroupCode(2, "LA", "prakt", "Kruk", 20);
-		GroupCode groupCode26 = new GroupCode(3, "LA", "prakt", "Kruk", 20);
+		GroupCode groupCode23 = new GroupCode(0, "LA", "lect", lect12, 60);
+		GroupCode groupCode24 = new GroupCode(1, "LA", "prakt", lect12, 20);
+		GroupCode groupCode25 = new GroupCode(2, "LA", "prakt", lect13, 20);
+		GroupCode groupCode26 = new GroupCode(3, "LA", "prakt", lect13, 20);
 
 		// 4 ---
 
-		GroupCode groupCode27 = new GroupCode(0, "SP", "lect", "OPZ", 42);
-		GroupCode groupCode28 = new GroupCode(1, "SP", "prakt", "OPZ", 14);
-		GroupCode groupCode29 = new GroupCode(2, "SP", "prakt", "OPZ", 14);
-		GroupCode groupCode30 = new GroupCode(3, "SP", "prakt", "OPZ", 14);
+		GroupCode groupCode27 = new GroupCode(0, "SP", "lect", lect14, 42);
+		GroupCode groupCode28 = new GroupCode(1, "SP", "prakt", lect14, 14);
+		GroupCode groupCode29 = new GroupCode(2, "SP", "prakt", lect14, 14);
+		GroupCode groupCode30 = new GroupCode(3, "SP", "prakt", lect14, 14);
 
-		GroupCode groupCode31 = new GroupCode(0, "UPP", "lect", "Procenko", 42);
-		GroupCode groupCode32 = new GroupCode(1, "UPP", "prakt", "Procenko", 14);
-		GroupCode groupCode33 = new GroupCode(2, "UPP", "prakt", "Sydor", 14);
-		GroupCode groupCode34 = new GroupCode(3, "UPP", "prakt", "Sydor", 14);
+		GroupCode groupCode31 = new GroupCode(0, "UPP", "lect", lect2, 42);
+		GroupCode groupCode32 = new GroupCode(1, "UPP", "prakt", lect2, 14);
+		GroupCode groupCode33 = new GroupCode(2, "UPP", "prakt", lect15, 14);
+		GroupCode groupCode34 = new GroupCode(3, "UPP", "prakt", lect15, 14);
 
-		GroupCode groupCode35 = new GroupCode(0, "TPZ", "lect", "Afo", 42);
-		GroupCode groupCode36 = new GroupCode(1, "TPZ", "prakt", "Afo", 14);
-		GroupCode groupCode37 = new GroupCode(2, "TPZ", "prakt", "Boroz", 14);
-		GroupCode groupCode38 = new GroupCode(3, "TPZ", "prakt", "Afo", 14);
+		GroupCode groupCode35 = new GroupCode(0, "TPZ", "lect", lect16, 42);
+		GroupCode groupCode36 = new GroupCode(1, "TPZ", "prakt", lect16, 14);
+		GroupCode groupCode37 = new GroupCode(2, "TPZ", "prakt", lect17, 14);
+		GroupCode groupCode38 = new GroupCode(3, "TPZ", "prakt", lect16, 14);
 
-		GroupCode groupCode39 = new GroupCode(0, "TM", "lect", "Afo", 42);
-		GroupCode groupCode40 = new GroupCode(1, "TM", "prakt", "Afo", 14);
-		GroupCode groupCode41 = new GroupCode(1, "TM", "prakt", "Afo", 14);
+		GroupCode groupCode39 = new GroupCode(0, "TM", "lect", lect16, 42);
+		GroupCode groupCode40 = new GroupCode(1, "TM", "prakt", lect16, 14);
+		GroupCode groupCode41 = new GroupCode(1, "TM", "prakt", lect16, 14);
 
 		Group group1 = new Group(1, groupCode1, 0, "IUST-1");
 		Group group2 = new Group(2, groupCode2, 1, "IUST-1");
@@ -164,50 +247,6 @@ public class Test {
 		System.out.println(setOfEncodedAuditories.get(aud7));
 		System.out.println(setOfAuditories.get(8).getAuditoryNumber());
 
-		Period period1 = new Period(1, 1, "Monday");
-		Period period2 = new Period(2, 2, "Monday");
-		Period period3 = new Period(3, 3, "Monday");
-		Period period4 = new Period(4, 4, "Monday");
-		Period period5 = new Period(5, 5, "Monday");
-		Period period6 = new Period(6, 6, "Monday");
-		Period period7 = new Period(7, 1, "Tuesday");
-		Period period8 = new Period(8, 2, "Tuesday");
-		Period period9 = new Period(9, 3, "Tuesday");
-		Period period10 = new Period(10, 4, "Tuesday");
-		Period period11 = new Period(11, 5, "Tuesday");
-		Period period12 = new Period(12, 6, "Tuesday");
-		Period period13 = new Period(13, 1, "Wednesday");
-		Period period14 = new Period(14, 2, "Wednesday");
-		Period period15 = new Period(15, 3, "Wednesday");
-		Period period16 = new Period(16, 4, "Wednesday");
-		Period period17 = new Period(17, 5, "Wednesday");
-		Period period18 = new Period(18, 6, "Wednesday");
-		Period period19 = new Period(19, 1, "Thursday");
-		Period period20 = new Period(20, 2, "Thursday");
-		Period period21 = new Period(21, 3, "Thursday");
-		Period period22 = new Period(22, 4, "Thursday");
-		Period period23 = new Period(23, 5, "Thursday");
-		Period period24 = new Period(24, 6, "Thursday");
-		Period period25 = new Period(25, 1, "Friday");
-		Period period26 = new Period(26, 2, "Friday");
-		Period period27 = new Period(27, 3, "Friday");
-		Period period28 = new Period(28, 4, "Friday");
-		Period period29 = new Period(29, 5, "Friday");
-		Period period30 = new Period(30, 6, "Friday");
-
-		Period[] period = { period1, period2, period3, period4, period5,
-				period6, period7, period8, period9, period10, period11,
-				period12, period13, period14, period15, period16, period17,
-				period18, period19, period20, period21, period22, period23,
-				period24, period25, period26, period27, period28, period29,
-				period30 };
-
-		HashMap<Integer, Period> setOfPeriods = new HashMap<Integer, Period>();
-
-		for (int i = 0; i < 30; i++) {
-			setOfPeriods.put(i, period[i]);
-		}
-
 		HashMap<Period, Integer> setOfEncodedPeriods = Period
 				.setOfEncodedPeriods(setOfPeriods,
 						STARTPOINT + setOfEncodedGroups.size()
@@ -252,11 +291,20 @@ public class Test {
 		System.out.println("individual:");
 
 		for (int i = 0; i < 20; i++) {
-			System.out.println(Individual.generateValidIndividual(
+			Individual ind = Individual.generateValidIndividual(
 					setOfEncodedGroups, setOfEncodedAuditories,
 					setOfEncodedPeriods, setOfGroups, setOfAuditories,
-					setOfPeriods).getRepresentation());
+					setOfPeriods);
+			System.out.println(ind.getRepresentation());
+			System.out.println("Fitness:"
+					+ SoftRestrictions.fitnessFunction(ind));
 		}
+
+		System.out.println("Fitness Test: "
+				+ SoftRestrictions.fitnessFunction(Individual
+						.generateValidIndividual(setOfEncodedGroups,
+								setOfEncodedAuditories, setOfEncodedPeriods,
+								setOfGroups, setOfAuditories, setOfPeriods)));
 
 		// System.out
 		// .println(Individual.decode(Individual.generateValidIndividual(
@@ -282,14 +330,7 @@ public class Test {
 		// setOfGroups, setOfAuditories, setOfPeriods);
 		// System.out.println("After Ind1: " + res.get(0).getRepresentation());
 		// System.out.println("After Ind2: " + res.get(1).getRepresentation());
-		for (short i = 32766; i < 032767; i++) {
-			System.out.println("i" + i);
-		}
-		short i = 032767;
 
-		System.out.println(i);
-
-		
 	}
 
 	public int calculateAuditoryStartPoint() {
