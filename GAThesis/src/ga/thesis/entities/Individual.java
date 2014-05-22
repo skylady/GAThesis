@@ -1,6 +1,7 @@
 package ga.thesis.entities;
 
 import ga.thesis.restrictions.HardRestrictions;
+import ga.thesis.restrictions.SoftRestrictions;
 import ga.thesis.utils.Utils;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-public class Individual {
+public class Individual implements Comparable<Individual> {
 
 	private List<Chromosome> chromosomes;
 	private ArrayList<ArrayList<Integer>> representation;
@@ -201,8 +202,15 @@ public class Individual {
 	}
 
 	public static double calculateFitness(Individual ind) {
-		// to do
-		return 0.0;
+		double res = 0.0;
+
+		double restValue = SoftRestrictions.lecturePeriod(ind, 0.2)
+				+ SoftRestrictions.lessWindowsForTeachers(ind, 0.2, 0.5)
+				+ SoftRestrictions.lessWindowsForGroups(ind, 0.05, 0.1);
+		SoftRestrictions.costFunnctionForTeachers(ind, 0.6);
+		res = 1 / (1 + restValue);
+
+		return res;
 	}
 
 	public static String decode(Individual ind,
@@ -251,10 +259,9 @@ public class Individual {
 							.get(2).get(i))));
 		}
 		Individual resIndividual = new Individual(chrList, representation,
-				representation.size(), fitness);
+				chrList.size(), fitness);
 		resIndividual.setFitness(calculateFitness(resIndividual));
 		return resIndividual;
-
 	}
 
 	@Override
@@ -304,5 +311,10 @@ public class Individual {
 		} else if (!representation.equals(other.representation))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Individual ind) {
+		return Double.compare(fitness, ind.fitness);
 	}
 }

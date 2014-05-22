@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class RouleteSelection implements ISelection {
 	@Override
-	public List<Individual> performSelection(Individual[] population,
+	public List<Individual> performSelection(List<Individual> population,
 			int popSize, Random rng) {
 
 		// Calculate the sum of all fitness values.

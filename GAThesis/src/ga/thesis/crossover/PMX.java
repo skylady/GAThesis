@@ -20,7 +20,7 @@ public class PMX {
 		ArrayList<ArrayList<Integer>> resPeriods = new ArrayList<ArrayList<Integer>>();
 
 		// crossover groups
-		resGroups = crossOverLists(ind1.getRepresentation().get(0), ind2
+		resGroups = TwoPointCrossOver.crossOverLists(ind1.getRepresentation().get(0), ind2
 				.getRepresentation().get(0), probability);
 
 		// crossover auditories
@@ -73,8 +73,10 @@ public class PMX {
 					resIndLst.add(in2);
 					isValid = true;
 				}
+				// System.out.println("croooos ");
 			} else {
 				isValid = false;
+			//	System.out.println("false");
 			}
 		}
 		return resIndLst;

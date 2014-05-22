@@ -22,9 +22,9 @@ public class SoftRestrictions {
 	public static double fitnessFunction(Individual ind) {
 		double res = 0.0;
 
-		double restValue = // lecturePeriod(ind, 0.2)
-		// + lessWindowsForTeachers(ind, 0.2, 0.5)
-		// + lessWindowsForGroups(ind, 0.05, 0.1);
+		double restValue =  lecturePeriod(ind, 0.2)
+		+ lessWindowsForTeachers(ind, 0.2, 0.5)
+		+ lessWindowsForGroups(ind, 0.05, 0.1);
 		costFunnctionForTeachers(ind, 0.6);
 		res = 1 / (1 + restValue);
 

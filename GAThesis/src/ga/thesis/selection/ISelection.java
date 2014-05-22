@@ -6,6 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 public interface ISelection {
-	List<Individual> performSelection(Individual[] population, int popSize,
+	List<Individual> performSelection(List<Individual> population, int popSize,
 			Random rng);
 }

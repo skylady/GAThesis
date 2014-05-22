@@ -1,15 +1,33 @@
 package ga.thesis.entities;
 
+import ga.thesis.*;
 import ga.thesis.crossover.PMX;
 import ga.thesis.restrictions.HardRestrictions;
 import ga.thesis.restrictions.SoftRestrictions;
+import ga.thesis.selection.EliteSelection;
+import ga.thesis.selection.RouleteSelection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 public class Test {
 	public static final int STARTPOINT = 10;
+	final static int N = 1;
+	final static int POP_SIZE = 50; // population size
+	final static int MAX_ITER = 200; // max number of iterations
+	final static double MUTATION_RATE = 0.05; // probability of mutation
+	final static double CROSSOVER_RATE = 0.9; // probability of crossover
+
+	final public static int ELITE = 5;
+
+	private static Random m_rand = new Random(); // random-number generator
+	private Individual[] m_population;
+	private double totalFitness;
+	private List<Individual> all;
 
 	public static void main(String[] args) {
 		Period period1 = new Period(1, 1, "Monday");
@@ -244,67 +262,67 @@ public class Test {
 
 		// Auditory keyByValue = getKeyByValue(setOfEncodedAuditories, 1);
 
-		System.out.println(setOfEncodedAuditories.get(aud7));
-		System.out.println(setOfAuditories.get(8).getAuditoryNumber());
-
+		// System.out.println(setOfEncodedAuditories.get(aud7));
+		// System.out.println(setOfAuditories.get(8).getAuditoryNumber());
+		//
 		HashMap<Period, Integer> setOfEncodedPeriods = Period
 				.setOfEncodedPeriods(setOfPeriods,
 						STARTPOINT + setOfEncodedGroups.size()
 								+ setOfEncodedAuditories.size());
-		System.out.println(setOfEncodedPeriods.get(period4));
-		System.out.println(setOfPeriods.get(6).getDayOfTheWeek());
+		// System.out.println(setOfEncodedPeriods.get(period4));
+		// System.out.println(setOfPeriods.get(6).getDayOfTheWeek());
+		//
+		// System.out.println(Chromosome
+		// .makeChromosome(group6, aud3, period3, setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods));
+		// System.out.println(Chromosome
+		// .generateRandomChromosome(setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods,
+		// setOfGroups, setOfAuditories, setOfPeriods));
+		//
+		// System.out.println(Chromosome.represent1(1, 3, 7, setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
+		// setOfAuditories, setOfPeriods));
+		//
+		// // group1.getGroupCode().getLecturer()
+		// ArrayList<Integer> a = new ArrayList<Integer>();
+		//
+		// a.add(1);
+		// a.add(2);
+		// a.add(3);
+		// a.add(3);
+		// a.add(5);
+		// a.add(6);
+		//
+		// java.util.Collections.shuffle(a);
+		// System.out.println(a);
+		//
+		// System.out.println("groups:");
+		// System.out.println(Individual.generateRandomGroupsList(setOfGroups,
+		// setOfEncodedGroups));
+		// System.out.println("auditories:");
+		// // System.out.println(Individual.generateRandomAuditoriesList(15,
+		// // setOfAuditories, setOfEncodedAuditories));
+		// System.out.println("periods:");
+		// System.out.println(Individual.generateRandomPeriodsList(25,
+		// setOfPeriods, setOfEncodedPeriods));
+		// System.out.println("individual:");
 
-		System.out.println(Chromosome
-				.makeChromosome(group6, aud3, period3, setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods));
-		System.out.println(Chromosome
-				.generateRandomChromosome(setOfEncodedGroups,
-						setOfEncodedAuditories, setOfEncodedPeriods,
-						setOfGroups, setOfAuditories, setOfPeriods));
-
-		System.out.println(Chromosome.represent1(1, 3, 7, setOfEncodedGroups,
-				setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-				setOfAuditories, setOfPeriods));
-
-		// group1.getGroupCode().getLecturer()
-		ArrayList<Integer> a = new ArrayList<Integer>();
-
-		a.add(1);
-		a.add(2);
-		a.add(3);
-		a.add(3);
-		a.add(5);
-		a.add(6);
-
-		java.util.Collections.shuffle(a);
-		System.out.println(a);
-
-		System.out.println("groups:");
-		System.out.println(Individual.generateRandomGroupsList(setOfGroups,
-				setOfEncodedGroups));
-		System.out.println("auditories:");
-		// System.out.println(Individual.generateRandomAuditoriesList(15,
-		// setOfAuditories, setOfEncodedAuditories));
-		System.out.println("periods:");
-		System.out.println(Individual.generateRandomPeriodsList(25,
-				setOfPeriods, setOfEncodedPeriods));
-		System.out.println("individual:");
-
-		for (int i = 0; i < 20; i++) {
-			Individual ind = Individual.generateValidIndividual(
-					setOfEncodedGroups, setOfEncodedAuditories,
-					setOfEncodedPeriods, setOfGroups, setOfAuditories,
-					setOfPeriods);
-			System.out.println(ind.getRepresentation());
-			System.out.println("Fitness:"
-					+ SoftRestrictions.fitnessFunction(ind));
-		}
-
-		System.out.println("Fitness Test: "
-				+ SoftRestrictions.fitnessFunction(Individual
-						.generateValidIndividual(setOfEncodedGroups,
-								setOfEncodedAuditories, setOfEncodedPeriods,
-								setOfGroups, setOfAuditories, setOfPeriods)));
+		// for (int i = 0; i < 20; i++) {
+		// Individual ind = Individual.generateValidIndividual(
+		// setOfEncodedGroups, setOfEncodedAuditories,
+		// setOfEncodedPeriods, setOfGroups, setOfAuditories,
+		// setOfPeriods);
+		// System.out.println(ind.getRepresentation());
+		// System.out.println("Fitness:"
+		// + SoftRestrictions.fitnessFunction(ind));
+		// }
+		//
+		// System.out.println("Fitness Test: "
+		// + SoftRestrictions.fitnessFunction(Individual
+		// .generateValidIndividual(setOfEncodedGroups,
+		// setOfEncodedAuditories, setOfEncodedPeriods,
+		// setOfGroups, setOfAuditories, setOfPeriods)));
 
 		// System.out
 		// .println(Individual.decode(Individual.generateValidIndividual(
@@ -331,10 +349,107 @@ public class Test {
 		// System.out.println("After Ind1: " + res.get(0).getRepresentation());
 		// System.out.println("After Ind2: " + res.get(1).getRepresentation());
 
+		// Algorithm
+		System.out.println("Start...");
+		List<Individual> population = new ArrayList<Individual>();
+		// Initialization
+		for (int i = 0; i < POP_SIZE; i++) {
+			Individual ind = Individual.generateValidIndividual(
+					setOfEncodedGroups, setOfEncodedAuditories,
+					setOfEncodedPeriods, setOfGroups, setOfAuditories,
+					setOfPeriods);
+			population.add(ind);
+			// System.out.println(ind.getRepresentation());
+			// System.out.println(ind.getFitness());
+		}
+		ArrayList<Individual> indiv = new ArrayList<Individual>();
+		int count;
+		List<Individual> newPopulation = new ArrayList<Individual>();
+		for (int iter = 0; iter < MAX_ITER; iter++) {
+		count = 0;
+		//	System.out.println("iter________________" + iter);
+			Random random = new Random(System.currentTimeMillis());
+			List<Individual> selected = new RouleteSelection()
+					.performSelection(population, population.size() - ELITE,
+							random);
+			List<Individual> elite = new EliteSelection().performSelection(
+					population, ELITE, random);
+			selected.addAll(elite);
+			// System.out.println(selected.size());
+
+			 Collections.sort(selected);
+			 Collections.reverse(population);
+			for (int g = 0; g < selected.size(); g++) {
+				System.out.println(selected.get(g).getRepresentation());	
+			}
+			 
+			 
+			 
+			// build new Population
+
+			while (count < POP_SIZE ) {
+				// Selection
+				// indiv.add(0, selected.get(count));
+				// indiv.add(1, selected.get(count + 1));
+
+				// System.out.println(selected.get(count).getRepresentation());
+				// System.out.println(selected.get(count +
+				// 1).getRepresentation());
+
+				ArrayList<Individual> resCrossOver = PMX.doPMX(
+						selected.get(count), selected.get(count + 1),
+						CROSSOVER_RATE, setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods);
+
+				// Crossover
+				// if (m_rand.nextDouble() < CROSSOVER_RATE) {
+				// indiv = new PMX.(indiv[0], indiv[1]).perform();
+				// }
+
+				// // Mutation
+				// if (m_rand.nextDouble() < MUTATION_RATE) {
+				// indiv[0] = new Mutation(indiv[0]).perform();
+				// }
+				// if (m_rand.nextDouble() < MUTATION_RATE) {
+				// indiv[0] = new Mutation(indiv[0]).perform();
+				// }
+
+				// add to new population
+				newPopulation.add(count, resCrossOver.get(0));
+				newPopulation.add(count + 1, resCrossOver.get(1));
+				count += 2;
+		//	}
+			// pop.setPopulation(newPop);
+			population = newPopulation;
+			Collections.sort(population);
+			Collections.reverse(population);
+			// System.out.println("----" +
+			// population.get(0).getRepresentation());
+			System.out.println(Test.calculateAvarege(population));
+			System.out.println(population.get(0).getFitness());
+			System.out.println(population.get(0).getRepresentation());
+			 }
+			// if (population.get(0).getFitness() == 1) {
+			// System.out.println(Individual.decode(population.get(0),
+			// setOfEncodedGroups, setOfEncodedAuditories,
+			// setOfEncodedPeriods, setOfGroups, setOfAuditories,
+			// setOfPeriods));
+		}
+
+		System.out.println("End...");
+
 	}
 
-	public int calculateAuditoryStartPoint() {
-		return 1;
+	public static double calculateAvarege(List<Individual> list) {
+		double res = 0.0;
+		for (int i = 0; i < list.size(); i++) {
+			res = list.get(i).getFitness() + list.get(i + 1).getFitness();
+			i++;
+
+		}
+		return res = res / list.size();
+
 	}
 
 }

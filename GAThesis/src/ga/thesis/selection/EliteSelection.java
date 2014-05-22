@@ -10,12 +10,12 @@ import java.util.Random;
 
 public class EliteSelection implements ISelection {
 	@Override
-	public List<Individual> performSelection(Individual[] population,
+	public List<Individual> performSelection(List<Individual> population,
 			int popSize, Random rng) {
-		List<Individual> l = Arrays.asList(population);
+		//List<Individual> l = Arrays.asList(population);
 		// Collections.sort(l);
 		// Collections.reverse(l);
-		int size = popSize > population.length ? population.length : popSize;
-		return l.subList(0, size);
+		int size = popSize > population.size() ? population.size() : popSize;
+		return population.subList(0, size);
 	}
 }
