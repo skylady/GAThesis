@@ -26,7 +26,8 @@ public class HardRestrictions {
 			String lecturer = ind.getChromosomes().get(j).getGroup()
 					.getGroupCode().getLecturer().getLecturerSurname();
 			if (ind.getChromosomes().get(j).getGroup().getGroupCode()
-					.getLecturer().getLecturerSurname().toString().equals(lecturer)) {
+					.getLecturer().getLecturerSurname().toString()
+					.equals(lecturer)) {
 				if (lecturerPeriods.containsKey(lecturer)) {
 					lecturerPeriods.get(lecturer).add(period);
 				} else {
@@ -115,17 +116,23 @@ public class HardRestrictions {
 					String course = courseList.get(l);
 					int sum1 = 0;
 					boolean hasLecture1 = false;
+					System.out.println("Course " + course);
 					for (int j = 0; j < groups.size(); j++) {
 						// course
 						if (groups.get(j).getCourse().equals(course)) {
+
+							// System.out.println(groups.get(j).getGroupNumber());
 							sum1 = sum1 + 1;
 
 							if (groups.get(j).getGroupNumber() == 0) {
+								System.out.println("SUM1 " + sum1);
 								hasLecture1 = true;
 							}
 						}
 					}
-					if (hasLecture1 && sum1 != 1) {
+					System.out.println("SUM .... " + sum1);
+					if (hasLecture1 && sum1 != 1 ) {
+						System.out.println("diff subj restriction");
 						return false;
 					}
 					// same subjects
@@ -145,6 +152,7 @@ public class HardRestrictions {
 							}
 						}
 						if (hasLecture && sum != 1) {
+							System.out.println("same subj restriction");
 							return false;
 						}
 					}
@@ -201,23 +209,23 @@ public class HardRestrictions {
 	public static boolean groupSizeLessAuditorySize(Individual ind) {
 
 		for (int i = 0; i < ind.getLength(); i++) {
-//			System.out.println("i="
-//					+ i
-//					+ "GR size:"
-//					+ ind.getChromosomes().get(i).getGroup().getGroupCode()
-//							.getGroupSize());
-//			System.out.println("Aud size: "
-//					+ ind.getChromosomes().get(i).getAuditory()
-//							.getAuditorySize());
+			// System.out.println("i="
+			// + i
+			// + "GR size:"
+			// + ind.getChromosomes().get(i).getGroup().getGroupCode()
+			// .getGroupSize());
+			// System.out.println("Aud size: "
+			// + ind.getChromosomes().get(i).getAuditory()
+			// .getAuditorySize());
 			if ((ind.getChromosomes().get(i).getGroup().getGroupCode()
-					.getGroupSize() > ind.getChromosomes().get(i)
-					.getAuditory().getAuditorySize())) {
-			//	System.out.println("________________");
+					.getGroupSize() > ind.getChromosomes().get(i).getAuditory()
+					.getAuditorySize())) {
+				// System.out.println("________________");
 				return false;
-				
+
 			}
 		}
-		
+
 		return true;
 	}
 }

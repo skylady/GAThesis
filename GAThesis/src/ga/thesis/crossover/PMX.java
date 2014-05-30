@@ -18,20 +18,39 @@ public class PMX {
 		ArrayList<ArrayList<Integer>> resGroups = new ArrayList<ArrayList<Integer>>();
 		ArrayList<ArrayList<Integer>> resAuditories = new ArrayList<ArrayList<Integer>>();
 		ArrayList<ArrayList<Integer>> resPeriods = new ArrayList<ArrayList<Integer>>();
+		Random rand = new Random();
+		int identifier = rand.nextInt(1);
 
-		// crossover groups
-		resGroups = TwoPointCrossOver.crossOverLists(ind1.getRepresentation().get(0), ind2
-				.getRepresentation().get(0), probability);
-
-		// crossover auditories
-		resAuditories = TwoPointCrossOver.crossOverLists(ind1
-				.getRepresentation().get(1), ind2.getRepresentation().get(1),
-				probability);
-
-		// crossover periods
-		resPeriods = TwoPointCrossOver.crossOverLists(ind1.getRepresentation()
-				.get(2), ind2.getRepresentation().get(2), probability);
-
+		if (identifier == 0) {
+			System.out.println("here");
+			// crossover groups
+			resGroups = crossOverLists(ind1.getRepresentation().get(0),
+					ind2.getRepresentation().get(0), probability);
+			resAuditories.add(ind1.getRepresentation().get(1));
+			resAuditories.add(ind2.getRepresentation().get(1));
+			resPeriods.add(ind1.getRepresentation().get(2));
+			resPeriods.add(ind2.getRepresentation().get(2));
+		}
+		if (identifier == 1) {
+			resGroups.add(ind1.getRepresentation().get(0));
+			resGroups.add(ind2.getRepresentation().get(0));
+			// crossover auditories
+			resAuditories = TwoPointCrossOver.crossOverLists(ind1
+					.getRepresentation().get(1), ind2.getRepresentation()
+					.get(1), probability);
+			resPeriods.add(ind1.getRepresentation().get(2));
+			resPeriods.add(ind2.getRepresentation().get(2));
+		}
+		if (identifier == 2) {
+			resGroups.add(ind1.getRepresentation().get(0));
+			resGroups.add(ind2.getRepresentation().get(0));
+			resAuditories.add(ind1.getRepresentation().get(1));
+			resAuditories.add(ind2.getRepresentation().get(1));
+			// crossover periods
+			resPeriods = TwoPointCrossOver.crossOverLists(ind1
+					.getRepresentation().get(2), ind2.getRepresentation()
+					.get(2), probability);
+		}
 		for (int i = 0; i < resGroups.size(); i++) {
 			ArrayList<ArrayList<Integer>> res1 = new ArrayList<ArrayList<Integer>>();
 			res1.add(resGroups.get(i));
@@ -76,7 +95,7 @@ public class PMX {
 				// System.out.println("croooos ");
 			} else {
 				isValid = false;
-			//	System.out.println("false");
+				// System.out.println("false");
 			}
 		}
 		return resIndLst;
@@ -137,7 +156,7 @@ public class PMX {
 
 		offspings.add(child1);
 		offspings.add(child2);
-
+		System.out.println("Here");
 		return offspings;
 	}
 
