@@ -22,39 +22,37 @@ public class ExchangeMutation {
 		Random rand = new Random();
 		if (rand.nextDouble() > probability) {
 			return ind;
-		}
-		while (!isValid) {
-			int identifier = rand.nextInt(2);
-		
+		} else {
+			while (!isValid) {
+				int identifier = rand.nextInt(3);
 
-			int mutationPoint1 = rand.nextInt(ind.getLength());
-			
-			int mutationPoint2 = rand.nextInt(ind.getLength());
-			while (mutationPoint1 == mutationPoint2) {
-				mutationPoint2 = rand.nextInt(ind.getLength());
-			}
-			System.out.println("iden " + identifier);
-			System.out.println("1   " + mutationPoint1);
-			System.out.println("   2  " + mutationPoint2);
-			int tmp = ind.getRepresentation().get(identifier)
-					.get(mutationPoint1);
-			ind.getRepresentation()
-					.get(identifier)
-					.set(mutationPoint1,
-							ind.getRepresentation().get(identifier)
-									.get(mutationPoint2));
-			ind.getRepresentation().get(identifier).set(mutationPoint2, tmp);
+				int mutationPoint1 = rand.nextInt(ind.getLength());
 
-			if (Individual.isValidIndividual(ind, setOfEncodedGroups,
-					setOfEncodedAuditories, setOfEncodedPeriods, setOfGroups,
-					setOfAuditories, setOfPeriods)) {
-				ind.setFitness(Individual.calculateFitness(ind));
-				isValid = true;
-			} else {
-				isValid = false;
+				int mutationPoint2 = rand.nextInt(ind.getLength());
+				while (mutationPoint1 == mutationPoint2) {
+					mutationPoint2 = rand.nextInt(ind.getLength());
+				}
+				int tmp = ind.getRepresentation().get(identifier)
+						.get(mutationPoint1);
+				
+				ind.getRepresentation()
+						.get(identifier)
+						.set(mutationPoint1,
+								ind.getRepresentation().get(identifier)
+										.get(mutationPoint2));
+				ind.getRepresentation().get(identifier)
+						.set(mutationPoint2, tmp);
+
+				if (Individual.isValidIndividual(ind, setOfEncodedGroups,
+						setOfEncodedAuditories, setOfEncodedPeriods,
+						setOfGroups, setOfAuditories, setOfPeriods)) {
+					ind.setFitness(Individual.calculateFitness(ind));
+					isValid = true;
+				} else {
+					isValid = false;
+				}
 			}
+			return ind;
 		}
-		return ind;
 	}
-
 }

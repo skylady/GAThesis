@@ -19,12 +19,12 @@ public class AuditoriesTestData {
 		Auditory aud8 = new Auditory(15, "1-108", 22);
 		Auditory aud9 = new Auditory(1, "208", 14);
 		Auditory aud10 = new Auditory(2, "206", 14);
-		Auditory aud11 = new Auditory(4, "309", 14);
-		Auditory aud12 = new Auditory(5, "306", 14);
-		Auditory aud13 = new Auditory(6, "307", 14);
-		Auditory aud14 = new Auditory(7, "331", 14);
-		Auditory aud15 = new Auditory(13, "2-204", 14);
-		Auditory aud16 = new Auditory(14, "2-214", 14);
+		Auditory aud11 = new Auditory(14, "2-214", 14);
+		Auditory aud12 = new Auditory(4, "309", 14);
+		Auditory aud13 = new Auditory(5, "306", 14);
+		Auditory aud14 = new Auditory(6, "307", 14);
+		Auditory aud15 = new Auditory(7, "331", 14);
+		Auditory aud16 = new Auditory(13, "2-204", 14);
 		Auditory aud17 = new Auditory(15, "1-110", 14);
 
 		Auditory[] araud = { aud1, aud2, aud3, aud4, aud5, aud6, aud7, aud8,

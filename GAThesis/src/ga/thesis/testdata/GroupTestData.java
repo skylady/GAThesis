@@ -201,11 +201,12 @@ public class GroupTestData {
 		GroupCode groupCode84 = new GroupCode(13, "SMWI", "lect", lect28, 11);
 		GroupCode groupCode85 = new GroupCode(13, "SMWI", "prakt", lect28, 11);
 		GroupCode groupCode86 = new GroupCode(13, "PZIS", "lect", lect1, 11);
-		GroupCode groupCode87 = new GroupCode(13, "PZIS", "lect", lect1, 11);
-		GroupCode groupCode88 = new GroupCode(13, "SMWI", "lect", lect28, 11);
-		GroupCode groupCode89 = new GroupCode(13, "SMWI", "prakt", lect28, 11);
+		GroupCode groupCode87 = new GroupCode(13, "PZIS2", "pract", lect1, 11); // TODO:
+		GroupCode groupCode88 = new GroupCode(13, "SMWI1", "lect", lect28, 11);//TODO:
+		GroupCode groupCode89 = new GroupCode(13, "SMWI1", "prakt", lect28, 11);//TODO:
 		GroupCode groupCode90 = new GroupCode(13, "SPR", "lect", lect18, 11);
-		GroupCode groupCode91 = new GroupCode(13, "SPR", "lect", lect18, 11);
+
+		GroupCode groupCode91 = new GroupCode(13, "SPR2", "pract", lect18, 11);// TODO:
 		GroupCode groupCode92 = new GroupCode(0, "ICCD", "prakt", lect15, 11);
 		GroupCode groupCode93 = new GroupCode(1, "MRPS1", "lect", lect14, 11);
 		GroupCode groupCode94 = new GroupCode(1, "MRPS1", "prakt", lect14, 11);
@@ -392,7 +393,8 @@ public class GroupTestData {
 
 		Group[] group = { group1, group2, group3, group4, group5, group6,
 				group7, group8, group9, group10, group11, group12, group13,
-				group14, group15, group16, group17, group18, group19, group20,
+				group14,
+				/*group15, group16, group17, group18, group19, group20,
 				group21, group22, group23, group24, group25, group26, group27,
 				group28, group29, group30, group31, group32, group33, group34,
 				group35, group36, group37, group38, group42, group43, group44,
@@ -402,19 +404,23 @@ public class GroupTestData {
 				group66, group67, group68, group69, group70, group71, group72,
 				group73, group74, group75, group76, group77, group78, group79,
 				group80, group81, group82, group83, group84, group85, group86,
-				group87, group88, group89, group90, group91, group92, group93,
+				group87, group88, group89, group90, group91, */
+				 group92, group93,
 				group94, group95, group96, group97, group98, group99, group100,
-				group101, group102, group103, group104, group105, group106,
+				/*group101, group102, group103, group104, group105, group106,
 				group107, group108, group109, group110, group111, group112,
 				group113, group114, group115, group116, group117, group118,
-				group119, group120, group121, group122, group123, group124 };
+				group119, group120, group121, group122, group123, group124 */
+				 };
 
 		HashMap<Integer, Group> setOfGroups = new HashMap<Integer, Group>();
 
-		for (int i1 = 0; i1 < 14; i1++) {
+		for (int i1 = 0; i1 < 23; i1++) {
 			setOfGroups.put(i1, group[i1]);
 		}
 
+		
+		
 		HashMap<Group, Integer> setOfEncodedGroups = Group.setOfEncodedGroups(
 				setOfGroups, STARTPOINT);
 		// System.out.println("set size: " + setOfGroups.size());

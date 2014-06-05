@@ -7,6 +7,7 @@ import ga.thesis.entities.Period;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class PMX {
@@ -19,38 +20,37 @@ public class PMX {
 		ArrayList<ArrayList<Integer>> resAuditories = new ArrayList<ArrayList<Integer>>();
 		ArrayList<ArrayList<Integer>> resPeriods = new ArrayList<ArrayList<Integer>>();
 		Random rand = new Random();
-		int identifier = rand.nextInt(1);
+		// int identifier = rand.nextInt(3);
 
-		if (identifier == 0) {
-			System.out.println("here");
-			// crossover groups
-			resGroups = crossOverLists(ind1.getRepresentation().get(0),
-					ind2.getRepresentation().get(0), probability);
-			resAuditories.add(ind1.getRepresentation().get(1));
-			resAuditories.add(ind2.getRepresentation().get(1));
-			resPeriods.add(ind1.getRepresentation().get(2));
-			resPeriods.add(ind2.getRepresentation().get(2));
-		}
-		if (identifier == 1) {
-			resGroups.add(ind1.getRepresentation().get(0));
-			resGroups.add(ind2.getRepresentation().get(0));
-			// crossover auditories
-			resAuditories = TwoPointCrossOver.crossOverLists(ind1
-					.getRepresentation().get(1), ind2.getRepresentation()
-					.get(1), probability);
-			resPeriods.add(ind1.getRepresentation().get(2));
-			resPeriods.add(ind2.getRepresentation().get(2));
-		}
-		if (identifier == 2) {
-			resGroups.add(ind1.getRepresentation().get(0));
-			resGroups.add(ind2.getRepresentation().get(0));
-			resAuditories.add(ind1.getRepresentation().get(1));
-			resAuditories.add(ind2.getRepresentation().get(1));
-			// crossover periods
-			resPeriods = TwoPointCrossOver.crossOverLists(ind1
-					.getRepresentation().get(2), ind2.getRepresentation()
-					.get(2), probability);
-		}
+		// if (identifier == 0) {
+		// System.out.println("here");
+		// crossover groups
+		resGroups = crossOverLists(ind1.getRepresentation().get(0), ind2
+				.getRepresentation().get(0), probability);
+		// resAuditories.add(ind1.getRepresentation().get(1));
+		// resAuditories.add(ind2.getRepresentation().get(1));
+		// resPeriods.add(ind1.getRepresentation().get(2));
+		// resPeriods.add(ind2.getRepresentation().get(2));
+		// }
+		// if (identifier == 1) {
+		// resGroups.add(ind1.getRepresentation().get(0));
+		// resGroups.add(ind2.getRepresentation().get(0));
+		// // crossover auditories
+		resAuditories = TwoPointCrossOver.crossOverLists(ind1
+				.getRepresentation().get(1), ind2.getRepresentation().get(1),
+				probability);
+		// resPeriods.add(ind1.getRepresentation().get(2));
+		// resPeriods.add(ind2.getRepresentation().get(2));
+		// }
+		// if (identifier == 2) {
+		// resGroups.add(ind1.getRepresentation().get(0));
+		// resGroups.add(ind2.getRepresentation().get(0));
+		// resAuditories.add(ind1.getRepresentation().get(1));
+		// resAuditories.add(ind2.getRepresentation().get(1));
+		// crossover periods
+		resPeriods = TwoPointCrossOver.crossOverLists(ind1.getRepresentation()
+				.get(2), ind2.getRepresentation().get(2), probability);
+		// }
 		for (int i = 0; i < resGroups.size(); i++) {
 			ArrayList<ArrayList<Integer>> res1 = new ArrayList<ArrayList<Integer>>();
 			res1.add(resGroups.get(i));
@@ -101,14 +101,22 @@ public class PMX {
 		return resIndLst;
 	}
 
-	@SuppressWarnings("unchecked")
+	private static Random rand = new Random(System.currentTimeMillis());
+
 	public static ArrayList<ArrayList<Integer>> crossOverLists(
 			ArrayList<Integer> parent1, ArrayList<Integer> parent2,
 			double probability) {
+		return crossOverLists(parent1, parent2, probability, -1, -1);
+	}
+
+	@SuppressWarnings("unchecked")
+	public static ArrayList<ArrayList<Integer>> crossOverLists(
+			ArrayList<Integer> parent1, ArrayList<Integer> parent2,
+			double probability, int crosspoint1, int crosspoint2) {
 		ArrayList<ArrayList<Integer>> offspings = new ArrayList<ArrayList<Integer>>();
 		// Should we do the crossover, based on the given probability?
 		// If not just return the parents.
-		Random rand = new Random();
+		// Random rand = new Random();
 		if (rand.nextDouble() > probability) {
 			offspings.add(parent1);
 			offspings.add(parent2);
@@ -117,17 +125,27 @@ public class PMX {
 
 		// 1. Choose two different random crossover points
 
-		int crossPoint1 = rand.nextInt(parent1.size());
-		int crossPoint2 = rand.nextInt(parent1.size());
+		int crossPoint1 = crosspoint1 > 0 ? crosspoint1 : rand.nextInt(parent1
+				.size());
+		int crossPoint2 = crosspoint2 > 0 ? crosspoint2 : rand.nextInt(parent1
+				.size());
 
 		while (crossPoint1 == crossPoint2) {
 			crossPoint2 = rand.nextInt(parent1.size());
 		}
 
+//		crossPoint1 = 2;
+//		crossPoint2 = 6;
+
 		// calculate min
 		int min = crossPoint1;
 		if (crossPoint1 > crossPoint2) {
 			min = crossPoint2;
+		}
+
+		int max = crossPoint2;
+		if (crossPoint1 > crossPoint2) {
+			max = crossPoint1;
 		}
 
 		int crossLength = min + Math.abs(crossPoint2 - crossPoint1) + 1;
@@ -138,6 +156,8 @@ public class PMX {
 		ArrayList<Integer> child2 = (ArrayList<Integer>) parent2.clone();
 
 		// 3. Put segments into childs
+		// min = 3;
+		// crossLength = 7;
 		for (int i = min; i < crossLength; i++) {
 			child1.set(i, parent2.get(i));
 			child2.set(i, parent1.get(i));
@@ -147,22 +167,87 @@ public class PMX {
 		while (!isValid) {
 			if (validChild(child1) && validChild(child2)) {
 				isValid = true;
-			} else if (!validChild(child1)) {
-				child1 = recoverChild(min, crossLength, child1, child2);
-			} else if (!validChild(child2)) {
-				child2 = recoverChild(min, crossLength, child2, child1);
-			}
-		}
+			} else {
+				List<ArrayList<Integer>> recovered = recoverChild_1(min, max, child1, child2);
+				child1 = recovered.get(0);
+				child2 = recovered.get(1);
+				// } else if (!validChild(child1)) {
+				//ArrayList<Integer> tmp = child1;
+				//child1 = recoverChild(min, max, child1, child2);
+				// child2 = recoverChild(crosspoint1, crosspoint2, child2, tmp);
 
+				// } else if (!validChild(child2)) {
+				//child2 = recoverChild(min, max, child2, tmp);
+
+				// Pair<ArrayList<Integer>,ArrayList<Integer>> childs=
+				// recoverChild(min, crossLength, child1, child2);
+				;
+				// child2 = recoverChild(min, crossLength, child2, child1);
+
+				// }
+			}
+
+		}
 		offspings.add(child1);
 		offspings.add(child2);
-		System.out.println("Here");
+		// System.out.println("Here bkkk");
 		return offspings;
 	}
+	
+
+	public static List<ArrayList<Integer>> recoverChild_1(int min, int crossLength,
+			ArrayList<Integer> child1, ArrayList<Integer> child2) {
+		
+		for (int i = min; i<= crossLength; i++) {
+			int conflict = hasConflict(child1.get(i), min, crossLength, child1);
+			if (conflict >= 0) {
+				child1.set(conflict, child2.get(i));
+				Integer toChange = child2.get(i);
+				int conflictIn2 = hasConflict(toChange, min, crossLength, child2);
+				if (conflictIn2 >= 0) {
+					child2.set(conflictIn2, child1.get(i));
+				}
+			}
+		}
+		
+		for (int i = min; i<= crossLength; i++) {
+			int conflict = hasConflict(child2.get(i), min, crossLength, child2);
+			if (conflict >= 0) {
+				child2.set(conflict, child1.get(i));
+				Integer toChange = child1.get(i);
+				int conflictIn2 = hasConflict(toChange, min, crossLength, child1);
+				if (conflictIn2 >= 0) {
+					child1.set(conflictIn2, child2.get(i));
+				}
+			}
+		}
+		
+		ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();
+		result.add(child1);
+		result.add(child2);
+	
+		return result;
+	}
+	
+	public static int hasConflict(Integer elem, int min, int crossLength, ArrayList<Integer> child) {
+//		boolean hasConflict = false;
+		for (int i=0; i<min; i++) {
+			if (child.get(i).equals(elem)) {
+				return i;
+			}
+		}
+		for (int i=crossLength + 1; i< child.size(); i++) {
+			if (child.get(i).equals(elem)) {
+				return i;
+			}
+		} 
+		return -1;
+	}
+	
 
 	public static ArrayList<Integer> recoverChild(int min, int crossLength,
 			ArrayList<Integer> child1, ArrayList<Integer> child2) {
-		// System.out.println("recover");
+
 		for (int i = min; i < crossLength; i++) {
 
 			for (int j = 0; j < min; j++) {

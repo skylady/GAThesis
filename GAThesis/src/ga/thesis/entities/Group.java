@@ -52,6 +52,9 @@ public class Group {
 			HashMap<Integer, Group> setOfGroups, Integer startPoint) {
 		HashMap<Group, Integer> setOfEncodedGroups = new HashMap<Group, Integer>();
 		for (int i = 0; i < setOfGroups.size(); i++) {
+//			if (setOfEncodedGroups.containsKey(setOfGroups.get(i))) {
+//				System.out.println(setOfGroups.get(i));
+//			}
 			setOfEncodedGroups.put(setOfGroups.get(i), startPoint);
 			startPoint++;
 		}

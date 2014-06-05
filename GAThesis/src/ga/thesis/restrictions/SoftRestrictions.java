@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import ga.thesis.entities.Auditory;
 import ga.thesis.entities.Group;
 import ga.thesis.entities.Individual;
 import ga.thesis.entities.Lecturer;
@@ -19,22 +20,24 @@ public class SoftRestrictions {
 	// lect-pract order (!!! two lect or pract)
 	// lectures in the morning ++
 
-	public static double fitnessFunction(Individual ind) {
-		double res = 0.0;
-
-		double restValue =  lecturePeriod(ind, 0.2)
-		+ lessWindowsForTeachers(ind, 0.2, 0.5)
-		+ lessWindowsForGroups(ind, 0.05, 0.1);
-		costFunnctionForTeachers(ind, 0.6);
-		res = 1 / (1 + restValue);
-
-		return res;
-	}
+	// public static double fitnessFunction(Individual ind) {
+	// double res = 0.0;
+	//
+	// double restValue = lecturePeriod(ind, 0.2)
+	// + lessWindowsForTeachers(ind, 0.2, 0.5)
+	// + lessWindowsForGroups(ind, 0.05, 0.1);
+	// costFunnctionForTeachers(ind, 0.6);
+	// res = 1 / (1 + restValue);
+	//
+	// return res;
+	// }
 
 	public static double lecturePeriod(Individual ind, double restrictionAmount) {
 		double res = 0.;
 		for (int i = 0; i < ind.getLength(); i++) {
 			if (ind.getChromosomes().get(i).getGroup().getGroupNumber() == 0) {
+				// if
+				// (ind.getChromosomes().get(i).getPeriod().getDayOfTheWeek())
 				if (ind.getChromosomes().get(i).getPeriod().getNumberOfPeriod() > 3)
 					// wi*ci (wi -number of constraints)
 					res = res + restrictionAmount;
@@ -102,26 +105,31 @@ public class SoftRestrictions {
 	}
 
 	// TODO: fix lect-pract order
-	public double lectPractOrder(Individual ind, double restrictionAmount) {
+	public static double lectPractOrder(Individual ind, double softRest,
+			double hardRest) {
 
 		Set<Period> periodsSet = new HashSet<Period>();
 		ArrayList<Period> allPeriodsList = new ArrayList<Period>();
-		HashMap<Period, ArrayList<Group>> periodGroups = new HashMap<Period, ArrayList<Group>>();
+		HashMap<String, ArrayList<Period>> subjAuditories = new HashMap<String, ArrayList<Period>>();
 		Set<String> subjectsSet = new HashSet<String>();
 		ArrayList<String> subjectList = new ArrayList<String>();
 		Set<String> courseSet = new HashSet<String>();
 		ArrayList<String> courseList = new ArrayList<String>();
 
-		// period -> groups
 		for (int j = 0; j < ind.getLength(); j++) {
 			Period period = ind.getChromosomes().get(j).getPeriod();
-			Group group = ind.getChromosomes().get(j).getGroup();
-			if (periodGroups.containsKey(period)) {
-				periodGroups.get(period).add(group);
-			} else {
-				ArrayList<Group> periodGroupsList = new ArrayList<Group>();
-				periodGroupsList.add(group);
-				periodGroups.put(period, periodGroupsList);
+
+			String subject = ind.getChromosomes().get(j).getGroup()
+					.getGroupCode().getSubject();
+			if (ind.getChromosomes().get(j).getGroup().getGroupCode()
+					.getSubject().toString().equals(subject)) {
+				if (subjAuditories.containsKey(subject)) {
+					subjAuditories.get(subject).add(period);
+				} else {
+					ArrayList<Period> periodsList = new ArrayList<Period>();
+					periodsList.add(period);
+					subjAuditories.put(subject, periodsList);
+				}
 			}
 		}
 
@@ -151,43 +159,116 @@ public class SoftRestrictions {
 		}
 
 		double res = 0.;
-		for (int i = 0; i < ind.getLength(); i++) {
-			if (ind.getChromosomes().get(i).getGroup().getGroupNumber() == 0) {
-				if (ind.getChromosomes().get(i).getPeriod().getNumberOfPeriod() > 3)
-					// wi*ci (wi -number of constraints)
-					res = res + restrictionAmount;
+
+		for (int i = 0; i < subjectList.size(); i++) {
+			String subject = subjectList.get(i);
+			for (int l = 0; l < subjAuditories.get(subject).size() - 1; l++) {
+				if (subjAuditories.get(subject).get(l).getDayOfTheWeek() != subjAuditories
+						.get(subject).get(l + 1).getDayOfTheWeek()) {
+					res = res + hardRest;
+				} else {
+					if (Math.abs(subjAuditories.get(subject).get(l)
+							.getNumberOfPeriod()
+							- subjAuditories.get(subject).get(l + 1)
+									.getNumberOfPeriod()) > 2) {
+						res = res + hardRest;
+					} else if (Math.abs(subjAuditories.get(subject).get(l)
+							.getNumberOfPeriod()
+							- subjAuditories.get(subject).get(l + 1)
+									.getNumberOfPeriod()) > 1) {
+						res = res + softRest;
+					}
+
+				}
+				// l++;
 			}
 
 		}
+		// System.out.println("RRRRRRR    " + res);
+		return res;
+	}
 
-		for (int i = 0; i < periodGroups.size(); i++) {
-			Period period = allPeriodsList.get(i);
-			ArrayList<Group> groups = periodGroups.get(period);
-			// different subjects
-			for (int l = 0; l < courseList.size(); l++) {
-				String course = courseList.get(l);
-				// same subjects
-				for (int k = 0; k < subjectList.size(); k++) {
-					int sum = 0;
-					boolean hasLecture = false;
-					String subject = subjectList.get(k);
-					for (int j = 0; j < groups.size(); j++) {
-						if (groups.get(j).getCourse().equals(course)
-								&& groups.get(j).getGroupCode().getSubject()
-										.equals(subject)) {
-							sum = sum + 1;
+	public static double auditoryOrder(Individual ind, double softRest,
+			double hardRest) {
 
-							if (groups.get(j).getGroupNumber() == 0) {
-								hasLecture = true;
-							}
-						}
-					}
-					if (hasLecture && sum != 1) {
-						// return false;
-					}
+		Set<Period> periodsSet = new HashSet<Period>();
+		ArrayList<Period> allPeriodsList = new ArrayList<Period>();
+		HashMap<String, ArrayList<Auditory>> subjAuditories = new HashMap<String, ArrayList<Auditory>>();
+		Set<String> subjectsSet = new HashSet<String>();
+		ArrayList<String> subjectList = new ArrayList<String>();
+		Set<String> courseSet = new HashSet<String>();
+		ArrayList<String> courseList = new ArrayList<String>();
+
+		for (int j = 0; j < ind.getLength(); j++) {
+			Auditory aud = ind.getChromosomes().get(j).getAuditory();
+
+			String subject = ind.getChromosomes().get(j).getGroup()
+					.getGroupCode().getSubject();
+			if (ind.getChromosomes().get(j).getGroup().getGroupCode()
+					.getSubject().toString().equals(subject)) {
+				if (subjAuditories.containsKey(subject)) {
+					subjAuditories.get(subject).add(aud);
+				} else {
+					ArrayList<Auditory> periodsList = new ArrayList<Auditory>();
+					periodsList.add(aud);
+					subjAuditories.put(subject, periodsList);
 				}
 			}
 		}
+
+		// periods list
+		for (int j = 0; j < ind.getLength(); j++) {
+			Period period = ind.getChromosomes().get(j).getPeriod();
+			if (periodsSet.add(period)) {
+				allPeriodsList.add(period);
+			}
+		}
+
+		// group subject list
+		for (int j = 0; j < ind.getLength(); j++) {
+			String subject = ind.getChromosomes().get(j).getGroup()
+					.getGroupCode().getSubject();
+			if (subjectsSet.add(subject)) {
+				subjectList.add(subject);
+			}
+		}
+
+		// group course list
+		for (int j = 0; j < ind.getLength(); j++) {
+			String course = ind.getChromosomes().get(j).getGroup().getCourse();
+			if (courseSet.add(course)) {
+				courseList.add(course);
+			}
+		}
+
+		double res = 0.;
+
+		for (int i = 0; i < subjectList.size(); i++) {
+			String subject = subjectList.get(i);
+			for (int l = 0; l < subjAuditories.get(subject).size() - 1; l++) {
+				if (subjAuditories.get(subject).get(l).getAuditoryNumber() != subjAuditories
+						.get(subject).get(l + 1).getAuditoryNumber()) {
+					res = res + hardRest;
+					// } else {
+					// if (Math.abs(subjAuditories.get(subject).get(l)
+					// .getNumberOfPeriod()
+					// - subjAuditories.get(subject).get(l + 1)
+					// .getNumberOfPeriod()) > 2) {
+					// res = res + hardRest;
+					// } else if (Math.abs(subjAuditories.get(subject).get(l)
+					// .getNumberOfPeriod()
+					// - subjAuditories.get(subject).get(l + 1)
+					// .getNumberOfPeriod()) > 1) {
+					// res = res + softRest;
+					// }
+					//
+					// }
+
+				}
+				// l++;
+			}
+		}
+		// System.out.println("RRRRRRR    " + res);
 		return res;
 	}
 

@@ -12,7 +12,8 @@ import java.util.Random;
 import java.util.Set;
 
 public class Individual implements Comparable<Individual> {
-
+	private static Random random = new Random(System.currentTimeMillis());
+	
 	private List<Chromosome> chromosomes;
 	private ArrayList<ArrayList<Integer>> representation;
 	private int length;
@@ -77,7 +78,7 @@ public class Individual implements Comparable<Individual> {
 			HashMap<Auditory, Integer> setOfEncodedAuditories,
 			ArrayList<Integer> groups, HashMap<Integer, Group> setOfGroups,
 			HashMap<Group, Integer> setOfEncodedGroups) {
-		Random r = new Random();
+	
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		ArrayList<Integer> resArr = new ArrayList<Integer>();
 		for (int i = 0; i < setOfAuditories.size(); i++) {
@@ -88,17 +89,17 @@ public class Individual implements Comparable<Individual> {
 		for (int i = 0; i < groupSize; i++) {
 			if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
 					.getGroupCode().getGroupSize() > 30) {
-				rand = (arr.get(r.nextInt(3)));
+				rand = (arr.get(random.nextInt(3)));
 			} else if (Utils.getKeyByValue(setOfEncodedGroups, groups.get(i))
 					.getGroupCode().getGroupSize() > 14) {
-				rand = (arr.get(r.nextInt(7)));
+				rand = (arr.get(random.nextInt(7)));
 				//
 				// } else if (Utils.getKeyByValue(setOfEncodedGroups,
 				// groups.get(i))
 				// .getGroupCode().getGroupSize() > 30) {
 				// rand = (arr.get(r.nextInt(3)));
 			} else {
-				rand = arr.get(r.nextInt((arr.size() - 7)) + 7);
+				rand = arr.get(random.nextInt((arr.size() - 7)) + 7);
 			}
 			resArr.add(rand);
 		}
@@ -111,7 +112,7 @@ public class Individual implements Comparable<Individual> {
 			HashMap<Period, Integer> setOfEncodedPeriods,
 			ArrayList<Integer> groups, HashMap<Integer, Group> setOfGroups,
 			HashMap<Group, Integer> setOfEncodedGroups) {
-		Random r = new Random(System.currentTimeMillis());
+		//Random r = new Random(System.currentTimeMillis());
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		ArrayList<Integer> resArr = new ArrayList<Integer>();
 		Set<String> courseSet = new HashSet<String>();
@@ -122,9 +123,9 @@ public class Individual implements Comparable<Individual> {
 
 		for (int i = 0; i < groups.size(); i++) {
 			if (resArr.size() == 0) {
-				resArr.add(arr.get(r.nextInt(arr.size())));
+				resArr.add(arr.get(random.nextInt(arr.size())));
 			} else {
-				int period = arr.get(r.nextInt(arr.size()));
+				int period = arr.get(random.nextInt(arr.size()));
 				for (int j = 0; j < resArr.size(); j++) {
 					if (!resArr.contains(period)) {
 						resArr.add(period);
@@ -138,7 +139,7 @@ public class Individual implements Comparable<Individual> {
 									groups.get(i)).getGroupNumber() == 0) {
 								while (period == resArr.get(j)) {
 
-									period = arr.get(r.nextInt(arr.size()));
+									period = arr.get(random.nextInt(arr.size()));
 
 								}
 								resArr.add(period);
@@ -157,7 +158,7 @@ public class Individual implements Comparable<Individual> {
 			}
 		}
 
-		//System.out.println("Finish ");
+		// System.out.println("Finish ");
 		// java.util.Collections.shuffle(resArr);
 		return resArr;
 	}
@@ -165,7 +166,7 @@ public class Individual implements Comparable<Individual> {
 	public static ArrayList<Integer> generateRandomPeriodsList(int groupSize,
 			HashMap<Integer, Period> setOfPeriods,
 			HashMap<Period, Integer> setOfEncodedPeriods) {
-		Random r = new Random();
+		//
 		ArrayList<Integer> arr = new ArrayList<Integer>();
 		ArrayList<Integer> resArr = new ArrayList<Integer>();
 		for (int i = 0; i < setOfPeriods.size(); i++) {
@@ -173,7 +174,7 @@ public class Individual implements Comparable<Individual> {
 		}
 
 		for (int i = 0; i < groupSize; i++) {
-			resArr.add(arr.get(r.nextInt(arr.size())));
+			resArr.add(arr.get(random.nextInt(arr.size())));
 		}
 		java.util.Collections.shuffle(resArr);
 		return resArr;
@@ -247,24 +248,52 @@ public class Individual implements Comparable<Individual> {
 			HashMap<Integer, Auditory> setOfAuditories,
 			HashMap<Integer, Period> setOfPeriods) {
 
+//		if (!HardRestrictions.lecturerPeriodUnicity(ind)) {
+//			System.out.println("1 rest");
+//			return false;
+//		}
+//		System.out.println("isValid call_____");
+//		if (!HardRestrictions.groupNumberChecker(ind)) {
+//			System.out.println("2 rest");
+//			return false;
+//		}
+//		if (!HardRestrictions.auditoryUnicity(ind)) {
+//			System.out.println("3 rest");
+//			return false;
+//		}
+		 if (!HardRestrictions.groupSizeLessAuditorySize(ind)) {
+		//System.out.println("4 rest");
+		 return false;
+		 }
+
+		return true;
+	}
+
+	public static boolean calcHardRest(Individual ind,
+			HashMap<Group, Integer> setOfEncodedGroups,
+			HashMap<Auditory, Integer> setOfEncodedAuditories,
+			HashMap<Period, Integer> setOfEncodedPeriods,
+			HashMap<Integer, Group> setOfGroups,
+			HashMap<Integer, Auditory> setOfAuditories,
+			HashMap<Integer, Period> setOfPeriods) {
+
 		 if (!HardRestrictions.lecturerPeriodUnicity(ind)) {
 		 System.out.println("1 rest");
 		 return false;
 		 }
-		System.out.println("isValid call_____");
-		if (!HardRestrictions.groupNumberChecker(ind)) {
-			System.out.println("2 rest");
-			return false;
-		}
-
+//		 System.out.println("isValid call_____");
+//		 if (!HardRestrictions.groupNumberChecker(ind)) {
+//		 System.out.println("2 rest");
+//		 return false;
+//		 }
 		 if (!HardRestrictions.auditoryUnicity(ind)) {
 		 System.out.println("3 rest");
 		 return false;
 		 }
-		 if (!HardRestrictions.groupSizeLessAuditorySize(ind)) {
-		 System.out.println("4 rest");
-		 return false;
-		 }
+//		 if (!HardRestrictions.groupSizeLessAuditorySize(ind)) {
+//		 System.out.println("4 rest");
+//		 return false;
+//		 }
 
 		return true;
 	}
@@ -272,10 +301,17 @@ public class Individual implements Comparable<Individual> {
 	public static double calculateFitness(Individual ind) {
 		double res = 0.0;
 
-		double restValue = SoftRestrictions.lecturePeriod(ind, 0.4)
-				+ SoftRestrictions.lessWindowsForTeachers(ind, 0.2, 0.5)
-				+ SoftRestrictions.lessWindowsForGroups(ind, 0.05, 0.1);
-		SoftRestrictions.costFunnctionForTeachers(ind, 0.6);
+		double restValue = SoftRestrictions.lectPractOrder(ind, 0.1, 0.2)
+				+ SoftRestrictions.auditoryOrder(ind, 0.05, 0.1)
+				+ SoftRestrictions.lecturePeriod(ind, 0.1)
+				+ SoftRestrictions.lessWindowsForTeachers(ind, 0.05, 0.1)
+				+ SoftRestrictions.lessWindowsForGroups(ind, 0.001, 0.01)
+				+ SoftRestrictions.costFunnctionForTeachers(ind, 0.1)
+				+ HardRestrictions.calcAuditoryUnicity(ind, 1.0)
+				+ HardRestrictions.calcGroupNumberChecker(ind, 1.0)
+				+ HardRestrictions.calclecturerPeriodUnicity(ind, 1.0);
+				//+ HardRestrictions.calcGroupSizeLessAuditorySize(ind, 1.0);
+			//	+ HardRestrictions.calcPeriodUnicity(ind, 1.0);
 		res = res + restValue;
 
 		return res;
@@ -291,9 +327,13 @@ public class Individual implements Comparable<Individual> {
 
 		for (int i = 0; i < ind.getLength(); i++) {
 			System.out.println("---" + i + "---");
-			System.out.print(ind.getChromosomes().get(i).getGroup().getCourse()+"   teach "+ind.getChromosomes().get(i).getGroup().getGroupCode().getLecturer().getLecturerSurname()+"  "+ind.getChromosomes().get(i).getGroup()
-					.getGroupCode().getSubject()
-					+ " "
+			System.out.print(ind.getChromosomes().get(i).getGroup().getCourse()
+					+ "   teach "
+					+ ind.getChromosomes().get(i).getGroup().getGroupCode()
+							.getLecturer().getLecturerSurname()
+					+ "  "
+					+ ind.getChromosomes().get(i).getGroup().getGroupCode()
+							.getSubject() + " "
 					+ ind.getChromosomes().get(i).getGroup().getGroupNumber()
 					+ "___");
 			System.out.print(ind.getChromosomes().get(i).getAuditory()
@@ -306,9 +346,7 @@ public class Individual implements Comparable<Individual> {
 							.getNumberOfPeriod() + "___");
 		}
 		return "done";
-		
-		
-		
+
 	}
 
 	public static Individual buildIndividualByRepresentation(
