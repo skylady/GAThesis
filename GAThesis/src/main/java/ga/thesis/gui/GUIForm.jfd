@@ -1,0 +1,175 @@
+JFDML JFormDesigner: "5.2.0.0.109" Java: "1.6.0_65" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+			"$horizontalGroup": "par l {seq {space :p:162:p, comp jLabel2:::p::p, space u:::p, comp jComboBox1:::p::p, space :p:52:p, comp jButton3:::p:90:p, space :p:29:p, comp jButton2:::p::p, space :::x}, seq t {space ::31:x, par l {seq t {comp jLabel1:::p:488:p, space :p:179:p}, seq t {comp jScrollPane1:::p:784:p, space :p:35:p}}}}"
+			"$verticalGroup": "par l {seq l {space :p::p, comp jLabel1:::p:21:p, space :p::p, comp jScrollPane1::::501:x, space :p::p, par l {par b:l {comp jButton3::b:p:34:p, comp jButton2::b:p:34:p}, par b:l {comp jLabel2::b:p:27:p, comp jComboBox1::b:p:30:p}}, space :p::p}}"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 3
+			"title": "Програма побудови розкладу"
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jButton2"
+				"font": new java.awt.Font( "Courier New", 1, 14 )
+				"text": "Експорт"
+				"toolTipText": ""
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jButton2ActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "jComboBox1"
+				"font": new java.awt.Font( "Courier New", 0, 11 )
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "..."
+					addElement( "..." )
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jComboBox1ActionPerformed", true ) )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"background": new java.awt.Color( 204, 204, 255, 255 )
+				"font": new java.awt.Font( "Courier New", 0, 20 )
+				"horizontalAlignment": 0
+				"text": "Програма побудови розкладу"
+				"cursor": new java.awt.Cursor( 0 )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "jTable1"
+					"border": new javax.swing.border.LineBorder( sfield java.awt.Color black, 1, true )
+					"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+						add( new java.util.Vector {
+							add( "1 пара" )
+							add( "" )
+							add( null )
+							add( null )
+							add( "" )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( "2 пара" )
+							add( null )
+							add( null )
+							add( null )
+							add( "" )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( "3 пара" )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( "4 пара" )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( "5 пара" )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						add( new java.util.Vector {
+							add( "6 пара" )
+							add( null )
+							add( null )
+							add( "" )
+							add( null )
+							add( null )
+						} )
+					}, new java.util.Vector {
+						add( "" )
+						add( "Понеділок" )
+						add( "Вівторок" )
+						add( "Середа" )
+						add( "Четвер" )
+						add( "П'ятниця" )
+					}, new java.util.Vector {
+						add( class java.lang.Object )
+						add( class java.lang.Object )
+						add( class java.lang.Object )
+						add( class java.lang.Object )
+						add( class java.lang.Object )
+						add( class java.lang.Object )
+					}, new java.util.Vector {
+						add( true )
+						add( true )
+						add( true )
+						add( true )
+						add( true )
+						add( true )
+					}, new java.util.Vector {
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+						add( null )
+					} )
+				} )
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel2"
+				"font": new java.awt.Font( "Courier New", 0, 12 )
+				"text": "Відображати курс:"
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "jButton3"
+				"font": new java.awt.Font( "Courier New", 1, 14 )
+				"text": "Запуск"
+				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseReleased", "jButton3MouseReleased", true ) )
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jMenuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jMenu2"
+					"text": "Файл"
+					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+						name: "jMenu6"
+						"text": "Експорт розкладу"
+					} )
+					add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+						name: "jMenu5"
+						"text": "Налаштування алгоритму"
+						addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "jMenu5MouseClicked", true ) )
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jMenu5ActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "jMenuItem2"
+						"text": "Вийти з програми"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "jMenuItem2ActionPerformed", true ) )
+					} )
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jMenu3"
+					"text": "Робота з БД"
+				} )
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "jMenu4"
+					"text": "Допомога"
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+		add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+			name: "jMenu1"
+			"text": "jMenu1"
+		} )
+		add( new FormComponent( "javax.swing.JMenuItem" ) {
+			name: "jMenuItem1"
+			"text": "jMenuItem1"
+		} )
+	}
+}
